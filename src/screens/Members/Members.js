@@ -62,10 +62,6 @@ export default class Members extends React.Component {
     });
   };
 
-  newMember = () => {
-    this.props.history.push('members/new');
-  };
-
   filterList = () => {
     const { members, search } = this.state;
 
@@ -106,7 +102,7 @@ export default class Members extends React.Component {
           </Box>
 
           <Box pad={{ horizontal: 'small', vertical: 'small' }}>
-            <Button label="New Member" onClick={this.newMember} />
+            <Button label="New Member" path="members/new" />
           </Box>
         </Header>
 
