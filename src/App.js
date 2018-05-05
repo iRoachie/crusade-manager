@@ -1,21 +1,30 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Sidebar from 'grommet/components/Sidebar';
+import Header from 'grommet/components/Header';
+import Title from 'grommet/components/Title';
+import Box from 'grommet/components/Box';
+import Menu from 'grommet/components/Menu';
+import Anchor from 'grommet/components/Anchor';
+import Footer from 'grommet/components/Footer';
 
-class App extends Component {
+export default class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
+      <Sidebar colorIndex="neutral-1">
+        <Header pad="medium" justify="between">
+          <Title>Title</Title>
+        </Header>
+        <Box flex="grow" justify="start">
+          <Menu primary={true}>
+            <Anchor href="#" className="active">
+              First
+            </Anchor>
+            <Anchor href="#">Second</Anchor>
+            <Anchor href="#">Third</Anchor>
+          </Menu>
+        </Box>
+        <Footer pad="medium" />
+      </Sidebar>
     );
   }
 }
-
-export default App;
