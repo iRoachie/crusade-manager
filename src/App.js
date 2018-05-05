@@ -7,14 +7,7 @@ import {
   Redirect
 } from 'react-router-dom';
 
-import {
-  Areas,
-  Contacts,
-  NewArea,
-  Members,
-  NewTeamMember,
-  Area
-} from './screens';
+import { Areas, Contacts, NewArea, Members, NewMember, Area } from './screens';
 
 import App from 'grommet/components/App';
 import Sidebar from 'grommet/components/Sidebar';
@@ -29,7 +22,7 @@ export default class Root extends Component {
     return (
       <App centered={false}>
         <Router>
-          <Split priority="left" flex="right">
+          <Split priority="right" flex="right">
             <Sidebar colorIndex="brand">
               <Header pad="medium" justify="between">
                 <Title>Crusade Manager</Title>
@@ -40,7 +33,7 @@ export default class Root extends Component {
                     Areas
                   </NavLink>
                   <NavLink to="/members" activeClassName="active">
-                    Team Members
+                    Members
                   </NavLink>
                   <NavLink to="/contacts" activeClassName="active">
                     Contacts
@@ -59,7 +52,7 @@ export default class Root extends Component {
               <Route exact path="/areas/new" component={NewArea} />
               <Route exact path="/areas/:areaRef" component={Area} />
               <Route exact path="/members" component={Members} />
-              <Route exact path="/members/new" component={NewTeamMember} />
+              <Route exact path="/members/new" component={NewMember} />
               <Route path="/contacts" component={Contacts} />
             </Switch>
           </Split>

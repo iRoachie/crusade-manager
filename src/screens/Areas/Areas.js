@@ -97,7 +97,12 @@ export default class Areas extends React.Component {
               colorIndex="light-2"
               className="arealeader-box"
             >
-              <Box justify="between" flex={true} direction="row">
+              <Box
+                justify="between"
+                flex={true}
+                direction="row"
+                responsive={false}
+              >
                 <Title>{item.leader}</Title>
                 <Button
                   label="View"

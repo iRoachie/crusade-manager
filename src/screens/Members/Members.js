@@ -91,7 +91,7 @@ export default class Members extends React.Component {
       <Article>
         <Header fixed float={false} pad={{ horizontal: 'medium' }}>
           <Box direction="row" justify="between" flex={true}>
-            <Title>Team Members</Title>
+            <Title>Members</Title>
             <Box flex={true} justify="end" direction="row" responsive={true}>
               <Search
                 inline={true}
@@ -106,7 +106,7 @@ export default class Members extends React.Component {
           </Box>
 
           <Box pad={{ horizontal: 'small', vertical: 'small' }}>
-            <Button label="New Team Member" onClick={this.newMember} />
+            <Button label="New Member" onClick={this.newMember} />
           </Box>
         </Header>
 

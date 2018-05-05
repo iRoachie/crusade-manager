@@ -19,7 +19,7 @@ import { Loading } from '../../components';
 
 import firebase from 'firebase';
 
-export default class NewTeamMember extends React.Component {
+export default class NewMember extends React.Component {
   state = {
     name: '',
     leader: null,
@@ -62,7 +62,7 @@ export default class NewTeamMember extends React.Component {
     });
   };
 
-  addTeam = e => {
+  addMember = e => {
     e.preventDefault();
     const {
       loading,
@@ -103,20 +103,20 @@ export default class NewTeamMember extends React.Component {
             duration={2000}
             onClose={() => this.setState({ toastVisible: false })}
           >
-            Team Member Added.
+            Member Added.
           </Toast>
         )}
 
         <Article>
           <Header fixed float={false} pad={{ horizontal: 'medium' }}>
-            <Title>New Team Member</Title>
+            <Title>New Member</Title>
           </Header>
 
           {this.state.loading ? (
             <Loading />
           ) : (
             <Box pad={{ horizontal: 'medium' }}>
-              <Form onSubmit={this.addTeam} disabled={this.state.submitting}>
+              <Form onSubmit={this.addMember} disabled={this.state.submitting}>
                 <FormFields>
                   <Box pad={{ vertical: 'small' }}>
                     <FormField label="Name">

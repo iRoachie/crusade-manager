@@ -1,9 +1,17 @@
 @import 'grommet/scss/vanilla/index';
 
 .arealeader-box {
-  width: calc(33.3% - 10px);
-  margin-right: 10px;
   margin-bottom: 10px;
+  width: 100%;
+
+  @media (min-width: 998px) {
+    width: calc(50% - 10px);
+    margin-right: 10px;
+  }
+
+  @media (min-width: 1336px) {
+    width: calc(33.3% - 10px);
+  }
 }
 
 .arealeader-box__label {
