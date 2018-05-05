@@ -7,7 +7,15 @@ import {
   Redirect
 } from 'react-router-dom';
 
-import { Areas, Contacts, NewArea, Members, NewMember, Area } from './screens';
+import {
+  Areas,
+  Contacts,
+  NewArea,
+  Members,
+  NewMember,
+  Area,
+  NewContact
+} from './screens';
 
 import App from 'grommet/components/App';
 import Sidebar from 'grommet/components/Sidebar';
@@ -53,7 +61,8 @@ export default class Root extends Component {
               <Route exact path="/areas/:areaRef" component={Area} />
               <Route exact path="/members" component={Members} />
               <Route exact path="/members/new" component={NewMember} />
-              <Route path="/contacts" component={Contacts} />
+              <Route exact path="/contacts" component={Contacts} />
+              <Route exact path="/contacts/new" component={NewContact} />
             </Switch>
           </Split>
         </Router>
