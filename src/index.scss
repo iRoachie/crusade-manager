@@ -1,5 +1,12 @@
-// @import 'grommet/scss/vanilla/index';
+@import 'grommet/scss/vanilla/index';
 
-body {
-  background: black;
+.arealeader-box {
+  width: calc(33.3% - 10px);
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+.arealeader-box__label {
+  font-weight: 500;
+  font-size: 13px;
 }

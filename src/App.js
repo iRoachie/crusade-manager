@@ -1,30 +1,57 @@
 import React, { Component } from 'react';
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  NavLink,
+  Redirect
+} from 'react-router-dom';
+
+import { AreaLeaders, Contacts, NewAreaLeader } from './screens';
+
+import App from 'grommet/components/App';
 import Sidebar from 'grommet/components/Sidebar';
 import Header from 'grommet/components/Header';
 import Title from 'grommet/components/Title';
 import Box from 'grommet/components/Box';
 import Menu from 'grommet/components/Menu';
-import Anchor from 'grommet/components/Anchor';
-import Footer from 'grommet/components/Footer';
+import Split from 'grommet/components/Split';
 
-export default class App extends Component {
+export default class Root extends Component {
   render() {
     return (
-      <Sidebar colorIndex="neutral-1">
-        <Header pad="medium" justify="between">
-          <Title>Title</Title>
-        </Header>
-        <Box flex="grow" justify="start">
-          <Menu primary={true}>
-            <Anchor href="#" className="active">
-              First
-            </Anchor>
-            <Anchor href="#">Second</Anchor>
-            <Anchor href="#">Third</Anchor>
-          </Menu>
-        </Box>
-        <Footer pad="medium" />
-      </Sidebar>
+      <App centered={false}>
+        <Router>
+          <Split priority="left" flex="right">
+            <Sidebar colorIndex="brand">
+              <Header pad="medium" justify="between">
+                <Title>Crusade Manager</Title>
+              </Header>
+              <Box flex="grow" justify="start">
+                <Menu primary={true}>
+                  <NavLink to="/leaders" activeClassName="active">
+                    Area Leaders
+                  </NavLink>
+                  <NavLink to="/contacts" activeClassName="active">
+                    Contacts
+                  </NavLink>
+                </Menu>
+              </Box>
+            </Sidebar>
+
+            <Switch>
+              <Route
+                exact={true}
+                path="/"
+                render={() => <Redirect to="/leaders" />}
+              />
+              <Route exact path="/leaders" component={AreaLeaders} />
+              <Route exact path="/leaders/new" component={NewAreaLeader} />
+              <Route path="/contacts" component={Contacts} />
+            </Switch>
+          </Split>
+        </Router>
+      </App>
     );
   }
 }
