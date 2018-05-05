@@ -13,26 +13,30 @@ import Paragraph from 'grommet/components/Paragraph';
 
 import { Loading } from '../../components';
 
-export default class AreaLeaders extends React.Component {
+export default class Members extends React.Component {
   state = {
     search: '',
     loading: false,
-    leaders: []
+    leaders: [],
+    members: []
   };
 
   componentDidMount() {
     const database = firebase.database();
-    this.ref = database.ref('/areas');
+    this.membersRef = database.ref('/members');
+    this.leadersRef = database.ref('/areas');
     this.getLeaders();
+    this.getMembers();
   }
 
   componentWillUnmount() {
-    this.ref.off();
+    this.membersRef.off();
+    this.leadersRef.off();
   }
 
   getLeaders = () => {
     this.setState({ loading: true }, () => {
-      this.ref.on('value', snapshot => {
+      this.leadersRef.on('value', snapshot => {
         const leaders = snapshot.val();
 
         if (leaders) {
@@ -44,30 +48,50 @@ export default class AreaLeaders extends React.Component {
     });
   };
 
-  newTeam = () => {
-    this.props.history.push('leaders/new');
+  getMembers = () => {
+    this.setState({ loading: true }, () => {
+      this.membersRef.on('value', snapshot => {
+        const members = snapshot.val();
+
+        if (members) {
+          this.setState({ members: entries(members), loading: false });
+        } else {
+          this.setState({ loading: false });
+        }
+      });
+    });
+  };
+
+  newMember = () => {
+    this.props.history.push('members/new');
   };
 
   filterList = () => {
-    const { leaders, search } = this.state;
+    const { members, search } = this.state;
 
     if (search === '') {
-      return leaders;
+      return members;
     }
 
-    return leaders.filter(([_, item]) =>
+    return members.filter(([_, item]) =>
       item.leader.toLowerCase().includes(search.toLowerCase())
     );
   };
 
+  getAreaLeader = member => {
+    const leaderRef = member.leader;
+    const leader = this.state.leaders.find(a => a[0] === leaderRef);
+    return leader[1].leader;
+  };
+
   render() {
-    const leaders = this.filterList();
+    const members = this.filterList();
 
     return (
       <Article>
         <Header fixed float={false} pad={{ horizontal: 'medium' }}>
           <Box direction="row" justify="between" flex={true}>
-            <Title>Area Leaders</Title>
+            <Title>Team Members</Title>
             <Box flex={true} justify="end" direction="row" responsive={true}>
               <Search
                 inline={true}
@@ -82,7 +106,7 @@ export default class AreaLeaders extends React.Component {
           </Box>
 
           <Box pad={{ horizontal: 'small', vertical: 'small' }}>
-            <Button label="New Area Leader" onClick={this.newTeam} />
+            <Button label="New Team Member" onClick={this.newMember} />
           </Box>
         </Header>
 
@@ -94,41 +118,41 @@ export default class AreaLeaders extends React.Component {
           direction="row"
           wrap={true}
         >
-          {leaders.map(([key, item]) => (
+          {members.map(([key, member]) => (
             <Box
               key={key}
               pad={{ horizontal: 'small', vertical: 'small' }}
               colorIndex="light-2"
               className="arealeader-box"
             >
-              <Title>{item.leader}</Title>
+              <Title>{member.name}</Title>
+
+              <Box pad={{ vertical: 'small' }}>
+                <Paragraph className="arealeader-box__label" margin="none">
+                  Area Leader
+                </Paragraph>
+                <Label margin="none">{this.getAreaLeader(member)}</Label>
+              </Box>
 
               <Box pad={{ vertical: 'small' }}>
                 <Paragraph className="arealeader-box__label" margin="none">
                   House Phone
                 </Paragraph>
-                <Label margin="none">{item.house}</Label>
+                <Label margin="none">{member.house}</Label>
               </Box>
 
               <Box pad={{ vertical: 'small' }}>
                 <Paragraph className="arealeader-box__label" margin="none">
                   Cell Phone
                 </Paragraph>
-                <Label margin="none">{item.cell}</Label>
+                <Label margin="none">{member.cell}</Label>
               </Box>
 
               <Box pad={{ vertical: 'small' }}>
                 <Paragraph className="arealeader-box__label" margin="none">
                   Email
                 </Paragraph>
-                <Label margin="none">{item.email}</Label>
-              </Box>
-
-              <Box pad={{ vertical: 'small' }}>
-                <Paragraph className="arealeader-box__label" margin="none">
-                  Area Address
-                </Paragraph>
-                <Label margin="none">{item.address}</Label>
+                <Label margin="none">{member.email}</Label>
               </Box>
             </Box>
           ))}

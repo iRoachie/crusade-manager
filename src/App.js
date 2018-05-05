@@ -7,7 +7,13 @@ import {
   Redirect
 } from 'react-router-dom';
 
-import { AreaLeaders, Contacts, NewAreaLeader } from './screens';
+import {
+  AreaLeaders,
+  Contacts,
+  NewAreaLeader,
+  Members,
+  NewTeamMember
+} from './screens';
 
 import App from 'grommet/components/App';
 import Sidebar from 'grommet/components/Sidebar';
@@ -32,6 +38,9 @@ export default class Root extends Component {
                   <NavLink to="/leaders" activeClassName="active">
                     Area Leaders
                   </NavLink>
+                  <NavLink to="/members" activeClassName="active">
+                    Team Members
+                  </NavLink>
                   <NavLink to="/contacts" activeClassName="active">
                     Contacts
                   </NavLink>
@@ -47,6 +56,8 @@ export default class Root extends Component {
               />
               <Route exact path="/leaders" component={AreaLeaders} />
               <Route exact path="/leaders/new" component={NewAreaLeader} />
+              <Route exact path="/members" component={Members} />
+              <Route exact path="/members/new" component={NewTeamMember} />
               <Route path="/contacts" component={Contacts} />
             </Switch>
           </Split>
