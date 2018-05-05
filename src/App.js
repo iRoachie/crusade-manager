@@ -8,11 +8,12 @@ import {
 } from 'react-router-dom';
 
 import {
-  AreaLeaders,
+  Areas,
   Contacts,
-  NewAreaLeader,
+  NewArea,
   Members,
-  NewTeamMember
+  NewTeamMember,
+  Area
 } from './screens';
 
 import App from 'grommet/components/App';
@@ -35,8 +36,8 @@ export default class Root extends Component {
               </Header>
               <Box flex="grow" justify="start">
                 <Menu primary={true}>
-                  <NavLink to="/leaders" activeClassName="active">
-                    Area Leaders
+                  <NavLink to="/areas" activeClassName="active">
+                    Areas
                   </NavLink>
                   <NavLink to="/members" activeClassName="active">
                     Team Members
@@ -52,10 +53,11 @@ export default class Root extends Component {
               <Route
                 exact={true}
                 path="/"
-                render={() => <Redirect to="/leaders" />}
+                render={() => <Redirect to="/areas" />}
               />
-              <Route exact path="/leaders" component={AreaLeaders} />
-              <Route exact path="/leaders/new" component={NewAreaLeader} />
+              <Route exact path="/areas" component={Areas} />
+              <Route exact path="/areas/new" component={NewArea} />
+              <Route exact path="/areas/:areaRef" component={Area} />
               <Route exact path="/members" component={Members} />
               <Route exact path="/members/new" component={NewTeamMember} />
               <Route path="/contacts" component={Contacts} />

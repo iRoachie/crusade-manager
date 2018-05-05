@@ -13,30 +13,30 @@ import Paragraph from 'grommet/components/Paragraph';
 
 import { Loading } from '../../components';
 
-export default class AreaLeaders extends React.Component {
+export default class Areas extends React.Component {
   state = {
     search: '',
     loading: false,
-    leaders: []
+    areas: []
   };
 
   componentDidMount() {
     const database = firebase.database();
     this.ref = database.ref('/areas');
-    this.getLeaders();
+    this.getAreas();
   }
 
   componentWillUnmount() {
     this.ref.off();
   }
 
-  getLeaders = () => {
+  getAreas = () => {
     this.setState({ loading: true }, () => {
       this.ref.on('value', snapshot => {
-        const leaders = snapshot.val();
+        const areas = snapshot.val();
 
-        if (leaders) {
-          this.setState({ leaders: entries(leaders), loading: false });
+        if (areas) {
+          this.setState({ areas: entries(areas), loading: false });
         } else {
           this.setState({ loading: false });
         }
@@ -44,30 +44,26 @@ export default class AreaLeaders extends React.Component {
     });
   };
 
-  newTeam = () => {
-    this.props.history.push('leaders/new');
-  };
-
   filterList = () => {
-    const { leaders, search } = this.state;
+    const { areas, search } = this.state;
 
     if (search === '') {
-      return leaders;
+      return areas;
     }
 
-    return leaders.filter(([_, item]) =>
+    return areas.filter(([_, item]) =>
       item.leader.toLowerCase().includes(search.toLowerCase())
     );
   };
 
   render() {
-    const leaders = this.filterList();
+    const areas = this.filterList();
 
     return (
       <Article>
         <Header fixed float={false} pad={{ horizontal: 'medium' }}>
           <Box direction="row" justify="between" flex={true}>
-            <Title>Area Leaders</Title>
+            <Title>Areas</Title>
             <Box flex={true} justify="end" direction="row" responsive={true}>
               <Search
                 inline={true}
@@ -82,7 +78,7 @@ export default class AreaLeaders extends React.Component {
           </Box>
 
           <Box pad={{ horizontal: 'small', vertical: 'small' }}>
-            <Button label="New Area Leader" onClick={this.newTeam} />
+            <Button label="New Area" path="areas/new" />
           </Box>
         </Header>
 
@@ -94,14 +90,22 @@ export default class AreaLeaders extends React.Component {
           direction="row"
           wrap={true}
         >
-          {leaders.map(([key, item]) => (
+          {areas.map(([key, item]) => (
             <Box
               key={key}
               pad={{ horizontal: 'small', vertical: 'small' }}
               colorIndex="light-2"
               className="arealeader-box"
             >
-              <Title>{item.leader}</Title>
+              <Box justify="between" flex={true} direction="row">
+                <Title>{item.leader}</Title>
+                <Button
+                  label="View"
+                  path={`areas/${key}`}
+                  primary
+                  style={{ padding: '0 4px', minWidth: 0, marginRight: 2 }}
+                />
+              </Box>
 
               <Box pad={{ vertical: 'small' }}>
                 <Paragraph className="arealeader-box__label" margin="none">

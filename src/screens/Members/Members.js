@@ -17,30 +17,30 @@ export default class Members extends React.Component {
   state = {
     search: '',
     loading: false,
-    leaders: [],
+    areas: [],
     members: []
   };
 
   componentDidMount() {
     const database = firebase.database();
     this.membersRef = database.ref('/members');
-    this.leadersRef = database.ref('/areas');
-    this.getLeaders();
+    this.areasRef = database.ref('/areas');
+    this.getAreas();
     this.getMembers();
   }
 
   componentWillUnmount() {
     this.membersRef.off();
-    this.leadersRef.off();
+    this.areasRef.off();
   }
 
-  getLeaders = () => {
+  getAreas = () => {
     this.setState({ loading: true }, () => {
-      this.leadersRef.on('value', snapshot => {
-        const leaders = snapshot.val();
+      this.areasRef.on('value', snapshot => {
+        const areas = snapshot.val();
 
-        if (leaders) {
-          this.setState({ leaders: entries(leaders), loading: false });
+        if (areas) {
+          this.setState({ areas: entries(areas), loading: false });
         } else {
           this.setState({ loading: false });
         }
@@ -73,15 +73,15 @@ export default class Members extends React.Component {
       return members;
     }
 
-    return members.filter(([_, item]) =>
-      item.leader.toLowerCase().includes(search.toLowerCase())
+    return members.filter(([_, member]) =>
+      member.name.toLowerCase().includes(search.toLowerCase())
     );
   };
 
   getAreaLeader = member => {
-    const leaderRef = member.leader;
-    const leader = this.state.leaders.find(a => a[0] === leaderRef);
-    return leader[1].leader;
+    const areaRef = member.area;
+    const area = this.state.areas.find(a => a[0] === areaRef);
+    return area[1].leader;
   };
 
   render() {

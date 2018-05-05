@@ -64,9 +64,16 @@ export default class NewTeamMember extends React.Component {
 
   addTeam = e => {
     e.preventDefault();
-    const { loading, submitting, toastVisible, leaders, ...rest } = this.state;
+    const {
+      loading,
+      submitting,
+      toastVisible,
+      leaders,
+      leader,
+      ...rest
+    } = this.state;
 
-    rest.leader = rest.leader.value;
+    rest.area = leader.value;
 
     this.setState({ submitting: true }, () => {
       const database = firebase.database();

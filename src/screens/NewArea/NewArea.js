@@ -15,7 +15,7 @@ import Spinning from 'grommet/components/icons/Spinning';
 
 import firebase from 'firebase';
 
-export default class NewAreaLeader extends React.Component {
+export default class NewArea extends React.Component {
   state = {
     leader: '',
     address: '',
@@ -26,7 +26,7 @@ export default class NewAreaLeader extends React.Component {
     submitting: false
   };
 
-  addTeam = e => {
+  addArea = e => {
     e.preventDefault();
     const { submitting, toastVisible, ...rest } = this.state;
 
@@ -58,17 +58,17 @@ export default class NewAreaLeader extends React.Component {
             duration={2000}
             onClose={() => this.setState({ toastVisible: false })}
           >
-            Area Leader Added.
+            New Area Added.
           </Toast>
         )}
 
         <Article>
           <Header fixed float={false} pad={{ horizontal: 'medium' }}>
-            <Title>New Area Leader</Title>
+            <Title>New Area</Title>
           </Header>
 
           <Box pad={{ horizontal: 'medium' }}>
-            <Form onSubmit={this.addTeam} disabled={this.state.submitting}>
+            <Form onSubmit={this.addArea} disabled={this.state.submitting}>
               <FormFields>
                 <Box pad={{ vertical: 'small' }}>
                   <FormField label="Leader Name">
@@ -95,7 +95,7 @@ export default class NewAreaLeader extends React.Component {
                 </Box>
 
                 <Box pad={{ vertical: 'small' }}>
-                  <FormField label="House Number">
+                  <FormField label="Leader House Number">
                     <TextInput
                       autoComplete="off"
                       type="tel"
@@ -108,7 +108,7 @@ export default class NewAreaLeader extends React.Component {
                 </Box>
 
                 <Box pad={{ vertical: 'small' }}>
-                  <FormField label="Cell Number">
+                  <FormField label="Leader Cell Number">
                     <TextInput
                       value={this.state.cell}
                       type="tel"
@@ -119,7 +119,7 @@ export default class NewAreaLeader extends React.Component {
                 </Box>
 
                 <Box pad={{ vertical: 'small' }}>
-                  <FormField label="Email Address">
+                  <FormField label="Leader Email Address">
                     <TextInput
                       autoComplete="off"
                       type="email"
