@@ -122,7 +122,20 @@ export default class Contacts extends React.Component {
               colorIndex="light-2"
               className="arealeader-box"
             >
-              <Title>{contact.name}</Title>
+              <Box
+                justify="between"
+                flex={true}
+                direction="row"
+                responsive={false}
+              >
+                <Title>{contact.name}</Title>
+                <Button
+                  label="View"
+                  path={`contacts/${key}`}
+                  primary
+                  style={{ padding: '0 4px', minWidth: 0, marginRight: 2 }}
+                />
+              </Box>
 
               <Box pad={{ vertical: 'small' }}>
                 <Paragraph className="arealeader-box__label" margin="none">
