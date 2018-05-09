@@ -26,7 +26,7 @@ export default class Contacts extends React.Component {
     this.contactsRef = database.ref('/contacts');
     this.areasRef = database.ref('/areas');
     this.getAreas();
-    this.getMembers();
+    this.getContacts();
   }
 
   componentWillUnmount() {
@@ -48,7 +48,7 @@ export default class Contacts extends React.Component {
     });
   };
 
-  getMembers = () => {
+  getContacts = () => {
     this.setState({ loading: true }, () => {
       this.contactsRef.on('value', snapshot => {
         const contacts = snapshot.val();
@@ -77,7 +77,7 @@ export default class Contacts extends React.Component {
   getAreaLeader = contact => {
     const areaRef = contact.areaRef;
     const area = this.state.areas.find(a => a[0] === areaRef);
-    return area[1].leader;
+    return area ? area[1].leader : 'NO AREA LEADER';
   };
 
   render() {
