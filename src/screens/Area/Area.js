@@ -7,6 +7,7 @@ import Header from 'grommet/components/Header';
 import Title from 'grommet/components/Title';
 import Heading from 'grommet/components/Heading';
 import Box from 'grommet/components/Box';
+import Button from 'grommet/components/Button';
 import Paragraph from 'grommet/components/Paragraph';
 import Section from 'grommet/components/Section';
 
@@ -36,7 +37,7 @@ export default class Area extends React.Component {
           this.getMembers(snapshot.key);
           this.setState({ area });
         } else {
-          this.setState({ loading: false });
+          this.setState({ loading: false, area: null });
         }
       });
     });
@@ -68,6 +69,14 @@ export default class Area extends React.Component {
       <React.Fragment>
         {this.state.loading ? (
           <Loading />
+        ) : !area ? (
+          <Box flex={true} pad={{ vertical: 'medium' }} align="center">
+            <Heading tag="h3">Area Not Found</Heading>
+
+            <Box pad={{ vertical: 'small' }}>
+              <Button label="Back to Areas" path="/areas" />
+            </Box>
+          </Box>
         ) : (
           <Article>
             <Header fixed float={false} pad={{ horizontal: 'medium' }}>
