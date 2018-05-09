@@ -5,6 +5,7 @@ import entries from 'object.entries';
 import Article from 'grommet/components/Article';
 import Header from 'grommet/components/Header';
 import Title from 'grommet/components/Title';
+import Heading from 'grommet/components/Heading';
 import Box from 'grommet/components/Box';
 import Search from 'grommet/components/Search';
 import Button from 'grommet/components/Button';
@@ -16,7 +17,7 @@ import { Loading } from '../../components';
 export default class Members extends React.Component {
   state = {
     search: '',
-    loading: false,
+    status: 'initial',
     areas: [],
     members: []
   };
@@ -35,28 +36,28 @@ export default class Members extends React.Component {
   }
 
   getAreas = () => {
-    this.setState({ loading: true }, () => {
+    this.setState({ status: 'loading' }, () => {
       this.areasRef.on('value', snapshot => {
         const areas = snapshot.val();
 
         if (areas) {
-          this.setState({ areas: entries(areas), loading: false });
+          this.setState({ areas: entries(areas), status: 'loaded' });
         } else {
-          this.setState({ loading: false });
+          this.setState({ status: 'loaded' });
         }
       });
     });
   };
 
   getMembers = () => {
-    this.setState({ loading: true }, () => {
+    this.setState({ status: 'loading' }, () => {
       this.membersRef.on('value', snapshot => {
         const members = snapshot.val();
 
         if (members) {
-          this.setState({ members: entries(members), loading: false });
+          this.setState({ members: entries(members), status: 'loaded' });
         } else {
-          this.setState({ loading: false });
+          this.setState({ status: 'loaded' });
         }
       });
     });
@@ -82,6 +83,7 @@ export default class Members extends React.Component {
 
   render() {
     const members = this.filterList();
+    const { status } = this.state;
 
     return (
       <Article>
@@ -106,53 +108,63 @@ export default class Members extends React.Component {
           </Box>
         </Header>
 
-        {this.state.loading && <Loading />}
+        {status === 'loading' && <Loading />}
 
-        <Box
-          pad={{ horizontal: 'medium', vertical: 'medium' }}
-          flex={true}
-          direction="row"
-          wrap={true}
-        >
-          {members.map(([key, member]) => (
-            <Box
-              key={key}
-              pad={{ horizontal: 'small', vertical: 'small' }}
-              colorIndex="light-2"
-              className="arealeader-box"
-            >
-              <Title>{member.name}</Title>
-
-              <Box pad={{ vertical: 'small' }}>
-                <Paragraph className="arealeader-box__label" margin="none">
-                  Area Leader
-                </Paragraph>
-                <Label margin="none">{this.getAreaLeader(member)}</Label>
-              </Box>
-
-              <Box pad={{ vertical: 'small' }}>
-                <Paragraph className="arealeader-box__label" margin="none">
-                  House Phone
-                </Paragraph>
-                <Label margin="none">{member.house}</Label>
-              </Box>
-
-              <Box pad={{ vertical: 'small' }}>
-                <Paragraph className="arealeader-box__label" margin="none">
-                  Cell Phone
-                </Paragraph>
-                <Label margin="none">{member.cell}</Label>
-              </Box>
-
-              <Box pad={{ vertical: 'small' }}>
-                <Paragraph className="arealeader-box__label" margin="none">
-                  Email
-                </Paragraph>
-                <Label margin="none">{member.email}</Label>
-              </Box>
+        {status === 'loaded' &&
+          members.length === 0 && (
+            <Box justify="center" flex align="center">
+              <Heading tag="h4"> No Members Added </Heading>
             </Box>
-          ))}
-        </Box>
+          )}
+
+        {status === 'loaded' &&
+          members.length > 0 && (
+            <Box
+              pad={{ horizontal: 'medium', vertical: 'medium' }}
+              flex={true}
+              direction="row"
+              wrap={true}
+            >
+              {members.map(([key, member]) => (
+                <Box
+                  key={key}
+                  pad={{ horizontal: 'small', vertical: 'small' }}
+                  colorIndex="light-2"
+                  className="arealeader-box"
+                >
+                  <Title>{member.name}</Title>
+
+                  <Box pad={{ vertical: 'small' }}>
+                    <Paragraph className="arealeader-box__label" margin="none">
+                      Area Leader
+                    </Paragraph>
+                    <Label margin="none">{this.getAreaLeader(member)}</Label>
+                  </Box>
+
+                  <Box pad={{ vertical: 'small' }}>
+                    <Paragraph className="arealeader-box__label" margin="none">
+                      House Phone
+                    </Paragraph>
+                    <Label margin="none">{member.house}</Label>
+                  </Box>
+
+                  <Box pad={{ vertical: 'small' }}>
+                    <Paragraph className="arealeader-box__label" margin="none">
+                      Cell Phone
+                    </Paragraph>
+                    <Label margin="none">{member.cell}</Label>
+                  </Box>
+
+                  <Box pad={{ vertical: 'small' }}>
+                    <Paragraph className="arealeader-box__label" margin="none">
+                      Email
+                    </Paragraph>
+                    <Label margin="none">{member.email}</Label>
+                  </Box>
+                </Box>
+              ))}
+            </Box>
+          )}
       </Article>
     );
   }
