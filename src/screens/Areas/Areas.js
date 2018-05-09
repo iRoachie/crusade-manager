@@ -4,6 +4,7 @@ import entries from 'object.entries';
 
 import Article from 'grommet/components/Article';
 import Header from 'grommet/components/Header';
+import Heading from 'grommet/components/Heading';
 import Title from 'grommet/components/Title';
 import Box from 'grommet/components/Box';
 import Search from 'grommet/components/Search';
@@ -16,7 +17,7 @@ import { Loading } from '../../components';
 export default class Areas extends React.Component {
   state = {
     search: '',
-    loading: false,
+    status: 'initial',
     areas: []
   };
 
@@ -31,14 +32,14 @@ export default class Areas extends React.Component {
   }
 
   getAreas = () => {
-    this.setState({ loading: true }, () => {
+    this.setState({ status: 'loading' }, () => {
       this.ref.on('value', snapshot => {
         const areas = snapshot.val();
 
         if (areas) {
-          this.setState({ areas: entries(areas), loading: false });
+          this.setState({ areas: entries(areas), status: 'loaded' });
         } else {
-          this.setState({ loading: false });
+          this.setState({ status: 'loaded' });
         }
       });
     });
@@ -82,66 +83,76 @@ export default class Areas extends React.Component {
           </Box>
         </Header>
 
-        {this.state.loading && <Loading />}
+        {this.state.status === 'loading' && <Loading />}
 
-        <Box
-          pad={{ horizontal: 'medium', vertical: 'medium' }}
-          flex={true}
-          direction="row"
-          wrap={true}
-        >
-          {areas.map(([key, item]) => (
-            <Box
-              key={key}
-              pad={{ horizontal: 'small', vertical: 'small' }}
-              colorIndex="light-2"
-              className="arealeader-box"
-            >
-              <Box
-                justify="between"
-                flex={true}
-                direction="row"
-                responsive={false}
-              >
-                <Title>{item.leader}</Title>
-                <Button
-                  label="View"
-                  path={`areas/${key}`}
-                  primary
-                  style={{ padding: '0 4px', minWidth: 0, marginRight: 2 }}
-                />
-              </Box>
-
-              <Box pad={{ vertical: 'small' }}>
-                <Paragraph className="arealeader-box__label" margin="none">
-                  House Phone
-                </Paragraph>
-                <Label margin="none">{item.house}</Label>
-              </Box>
-
-              <Box pad={{ vertical: 'small' }}>
-                <Paragraph className="arealeader-box__label" margin="none">
-                  Cell Phone
-                </Paragraph>
-                <Label margin="none">{item.cell}</Label>
-              </Box>
-
-              <Box pad={{ vertical: 'small' }}>
-                <Paragraph className="arealeader-box__label" margin="none">
-                  Email
-                </Paragraph>
-                <Label margin="none">{item.email}</Label>
-              </Box>
-
-              <Box pad={{ vertical: 'small' }}>
-                <Paragraph className="arealeader-box__label" margin="none">
-                  Area Address
-                </Paragraph>
-                <Label margin="none">{item.address}</Label>
-              </Box>
+        {this.state.status === 'loaded' &&
+          this.state.areas.length === 0 && (
+            <Box justify="center" flex align="center">
+              <Heading tag="h4"> No Areas Added </Heading>
             </Box>
-          ))}
-        </Box>
+          )}
+
+        {this.state.status === 'loaded' &&
+          this.state.areas.length > 0 && (
+            <Box
+              pad={{ horizontal: 'medium', vertical: 'medium' }}
+              flex={true}
+              direction="row"
+              wrap={true}
+            >
+              {areas.map(([key, item]) => (
+                <Box
+                  key={key}
+                  pad={{ horizontal: 'small', vertical: 'small' }}
+                  colorIndex="light-2"
+                  className="arealeader-box"
+                >
+                  <Box
+                    justify="between"
+                    flex={true}
+                    direction="row"
+                    responsive={false}
+                  >
+                    <Title>{item.leader}</Title>
+                    <Button
+                      label="View"
+                      path={`areas/${key}`}
+                      primary
+                      style={{ padding: '0 4px', minWidth: 0, marginRight: 2 }}
+                    />
+                  </Box>
+
+                  <Box pad={{ vertical: 'small' }}>
+                    <Paragraph className="arealeader-box__label" margin="none">
+                      House Phone
+                    </Paragraph>
+                    <Label margin="none">{item.house}</Label>
+                  </Box>
+
+                  <Box pad={{ vertical: 'small' }}>
+                    <Paragraph className="arealeader-box__label" margin="none">
+                      Cell Phone
+                    </Paragraph>
+                    <Label margin="none">{item.cell}</Label>
+                  </Box>
+
+                  <Box pad={{ vertical: 'small' }}>
+                    <Paragraph className="arealeader-box__label" margin="none">
+                      Email
+                    </Paragraph>
+                    <Label margin="none">{item.email}</Label>
+                  </Box>
+
+                  <Box pad={{ vertical: 'small' }}>
+                    <Paragraph className="arealeader-box__label" margin="none">
+                      Area Address
+                    </Paragraph>
+                    <Label margin="none">{item.address}</Label>
+                  </Box>
+                </Box>
+              ))}
+            </Box>
+          )}
       </Article>
     );
   }
