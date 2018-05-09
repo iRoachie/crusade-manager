@@ -4,6 +4,7 @@ import entries from 'object.entries';
 
 import Article from 'grommet/components/Article';
 import Header from 'grommet/components/Header';
+import Heading from 'grommet/components/Heading';
 import Title from 'grommet/components/Title';
 import Box from 'grommet/components/Box';
 import Search from 'grommet/components/Search';
@@ -16,7 +17,7 @@ import { Loading } from '../../components';
 export default class Contacts extends React.Component {
   state = {
     search: '',
-    loading: false,
+    status: 'initial',
     areas: [],
     contacts: []
   };
@@ -35,28 +36,28 @@ export default class Contacts extends React.Component {
   }
 
   getAreas = () => {
-    this.setState({ loading: true }, () => {
+    this.setState({ status: 'loading' }, () => {
       this.areasRef.on('value', snapshot => {
         const areas = snapshot.val();
 
         if (areas) {
-          this.setState({ areas: entries(areas), loading: false });
+          this.setState({ areas: entries(areas), status: 'loaded' });
         } else {
-          this.setState({ loading: false });
+          this.setState({ status: 'loaded' });
         }
       });
     });
   };
 
   getContacts = () => {
-    this.setState({ loading: true }, () => {
+    this.setState({ status: 'loading' }, () => {
       this.contactsRef.on('value', snapshot => {
         const contacts = snapshot.val();
 
         if (contacts) {
-          this.setState({ contacts: entries(contacts), loading: false });
+          this.setState({ contacts: entries(contacts), status: 'loaded' });
         } else {
-          this.setState({ loading: false });
+          this.setState({ status: 'loaded' });
         }
       });
     });
@@ -82,6 +83,7 @@ export default class Contacts extends React.Component {
 
   render() {
     const contacts = this.filterList();
+    const { status } = this.state;
 
     return (
       <Article>
@@ -107,66 +109,76 @@ export default class Contacts extends React.Component {
           </Box>
         </Header>
 
-        {this.state.loading && <Loading />}
+        {status === 'loading' && <Loading />}
 
-        <Box
-          pad={{ horizontal: 'medium', vertical: 'medium' }}
-          flex={true}
-          direction="row"
-          wrap={true}
-        >
-          {contacts.map(([key, contact]) => (
-            <Box
-              key={key}
-              pad={{ horizontal: 'small', vertical: 'small' }}
-              colorIndex="light-2"
-              className="arealeader-box"
-            >
-              <Box
-                justify="between"
-                flex={true}
-                direction="row"
-                responsive={false}
-              >
-                <Title>{contact.name}</Title>
-                <Button
-                  label="View"
-                  path={`contacts/${key}`}
-                  primary
-                  style={{ padding: '0 4px', minWidth: 0, marginRight: 2 }}
-                />
-              </Box>
-
-              <Box pad={{ vertical: 'small' }}>
-                <Paragraph className="arealeader-box__label" margin="none">
-                  Area Leader
-                </Paragraph>
-                <Label margin="none">{this.getAreaLeader(contact)}</Label>
-              </Box>
-
-              <Box pad={{ vertical: 'small' }}>
-                <Paragraph className="arealeader-box__label" margin="none">
-                  House Phone
-                </Paragraph>
-                <Label margin="none">{contact.house}</Label>
-              </Box>
-
-              <Box pad={{ vertical: 'small' }}>
-                <Paragraph className="arealeader-box__label" margin="none">
-                  Cell Phone
-                </Paragraph>
-                <Label margin="none">{contact.cell}</Label>
-              </Box>
-
-              <Box pad={{ vertical: 'small' }}>
-                <Paragraph className="arealeader-box__label" margin="none">
-                  Email
-                </Paragraph>
-                <Label margin="none">{contact.email}</Label>
-              </Box>
+        {status === 'loaded' &&
+          contacts.length === 0 && (
+            <Box justify="center" flex align="center">
+              <Heading tag="h4"> No Contacts Added </Heading>
             </Box>
-          ))}
-        </Box>
+          )}
+
+        {status === 'loaded' &&
+          contacts.length > 0 && (
+            <Box
+              pad={{ horizontal: 'medium', vertical: 'medium' }}
+              flex={true}
+              direction="row"
+              wrap={true}
+            >
+              {contacts.map(([key, contact]) => (
+                <Box
+                  key={key}
+                  pad={{ horizontal: 'small', vertical: 'small' }}
+                  colorIndex="light-2"
+                  className="arealeader-box"
+                >
+                  <Box
+                    justify="between"
+                    flex={true}
+                    direction="row"
+                    responsive={false}
+                  >
+                    <Title>{contact.name}</Title>
+                    <Button
+                      label="View"
+                      path={`contacts/${key}`}
+                      primary
+                      style={{ padding: '0 4px', minWidth: 0, marginRight: 2 }}
+                    />
+                  </Box>
+
+                  <Box pad={{ vertical: 'small' }}>
+                    <Paragraph className="arealeader-box__label" margin="none">
+                      Area Leader
+                    </Paragraph>
+                    <Label margin="none">{this.getAreaLeader(contact)}</Label>
+                  </Box>
+
+                  <Box pad={{ vertical: 'small' }}>
+                    <Paragraph className="arealeader-box__label" margin="none">
+                      House Phone
+                    </Paragraph>
+                    <Label margin="none">{contact.house}</Label>
+                  </Box>
+
+                  <Box pad={{ vertical: 'small' }}>
+                    <Paragraph className="arealeader-box__label" margin="none">
+                      Cell Phone
+                    </Paragraph>
+                    <Label margin="none">{contact.cell}</Label>
+                  </Box>
+
+                  <Box pad={{ vertical: 'small' }}>
+                    <Paragraph className="arealeader-box__label" margin="none">
+                      Email
+                    </Paragraph>
+                    <Label margin="none">{contact.email}</Label>
+                  </Box>
+                </Box>
+              ))}
+            </Box>
+          )}
       </Article>
     );
   }
