@@ -77,7 +77,7 @@ export default class Members extends React.Component {
   getAreaLeader = member => {
     const areaRef = member.area;
     const area = this.state.areas.find(a => a[0] === areaRef);
-    return area[1].leader;
+    return area ? area[1].leader : 'NO AREA LEADER';
   };
 
   render() {
