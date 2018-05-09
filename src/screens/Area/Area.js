@@ -60,6 +60,7 @@ export default class Area extends React.Component {
 
   componentWillUnmount() {
     this.areaRef.off();
+    this.membersRef.off();
   }
 
   render() {
