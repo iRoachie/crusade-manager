@@ -65,7 +65,7 @@ export default class Areas extends React.Component {
       <Article>
         <Header fixed float={false} pad={{ horizontal: 'medium' }}>
           <Box direction="row" justify="between" flex={true}>
-            <Title>Areas</Title>
+            <Title>Area Leaders</Title>
             <Box flex={true} justify="end" direction="row" responsive={true}>
               <Search
                 inline={true}

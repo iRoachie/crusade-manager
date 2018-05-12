@@ -72,11 +72,11 @@ export default class Area extends React.Component {
 
         {this.state.loading ? null : !area ? (
           <Empty
-            message="Area Not Found"
+            message="Area Leader Not Found"
             large
             render={
               <Box pad={{ vertical: 'small' }}>
-                <Button label="Back to Areas" path="/areas" />
+                <Button label="Back to Area Leaders" path="/areas" />
               </Box>
             }
           />
@@ -84,7 +84,7 @@ export default class Area extends React.Component {
           <Article>
             <Header fixed float={false} pad={{ horizontal: 'medium' }}>
               <Box flex={true}>
-                <Title>{`${area.leader}'s Area`}</Title>
+                <Title>{`Area Leader | ${area.leader}`}</Title>
                 <Paragraph margin="none">{area.address}</Paragraph>
               </Box>
             </Header>

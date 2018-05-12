@@ -38,7 +38,7 @@ export default class Root extends Component {
               </Header>
               <Box flex="grow" justify="start">
                 <Menu primary={true}>
-                  <Anchor path="/areas">Areas</Anchor>
+                  <Anchor path="/areas">Area Leaders</Anchor>
                   <Anchor path="/members">Members</Anchor>
                   <Anchor path="/contacts">Contacts</Anchor>
                 </Menu>
