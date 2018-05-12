@@ -1,16 +1,13 @@
 language: node_js
 node_js:
-- 'stable'
+- stable
 cache: yarn
-
 install:
 - yarn
-
 script:
-- npm run build-ci
-
+- npm run build
 deploy:
-  provider: surge
-  project: ./build/
-  domain: crusade-manager.surge.sh
+  provider: firebase
   skip_cleanup: true
+  token:
+    secure: athOOYtgf43JhZHt3/fsKnVyEkBAtJJlCKi9AuLxJlR+0eNSoV7sItiTDqQShKOO/4FC4ZUPJ4jxgjJtq691SxNfqKI+jXzxU32ZHxUUNKHbEMYPs0/DQiKAKxbeMZKXAPm3tGI+v+U+soEuWcxd7HzX1RiZCEX2EHfYHlX9GJYn14i/EudT15QzV3z7lezc3Qs1DZsL37qteyc8TkfbOuHnbryw+PC1lXuUHYj2/CguHKALP4B1FntxbFO4APpU0W193yLvAfvji/V0lqCz8uJnbXHBhWKCRF/7aSeJR6/IHIQiFPRQTbFPtCegl9JCcBDo/0RBfHRoAx/lkikseMFx/iP15mSP+azZPeCaIczFrZRcgtvXhujWGyHghEA2JcQEM2EFBu8luu1wYCwq1Ji7qLSWdLQdvP3b1Yk+b5649IxwV6Hnr8dv/PSGVpk/DXRKx/c3RJFYx9k3uSbP7KKyisga8z0s9nJYpLqEnqGTaeKnkEw0AtawXKEqm/lXX8ql+HHyQGMlANH6lib2l+IjKs/yGBv7JH/OGKwnd/o1FaI6rbYTVv/hTxZ2YVdHnTdnnfnRffXIWWnk1dmwwqt0rPzhOQB/JzjBxv881ctqBmH0j2eE+PZ/3PAxT4w0lYVO4GdVt64bgk+oVi7YqJ04nw6TNIVyxwobcnAbGAI=

@@ -15,7 +15,6 @@
     "react-scripts": "1.1.4"
   },
   "scripts": {
-    "build-ci": "npm run build && mv build/index.html build/200.html",
     "start-js": "react-scripts start",
     "start": "npm-run-all -p watch-css start-js",
     "build-js": "react-scripts build",
