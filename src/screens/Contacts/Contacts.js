@@ -10,6 +10,7 @@ import Search from 'grommet/components/Search';
 import Button from 'grommet/components/Button';
 import Label from 'grommet/components/Label';
 import Paragraph from 'grommet/components/Paragraph';
+import CheckBox from 'grommet/components/CheckBox';
 
 import { Empty, Loading } from '../../components';
 
@@ -19,7 +20,11 @@ export default class Contacts extends React.Component {
     status: 'initial',
     members: null,
     areas: [],
-    contacts: []
+    contacts: [],
+    freeGift: false,
+    openingInvitation: false,
+    sabbathInvitation: false,
+    childEnrolled: false
   };
 
   componentDidMount() {
@@ -83,13 +88,21 @@ export default class Contacts extends React.Component {
   filterList = () => {
     const { contacts, search } = this.state;
 
-    if (search === '') {
-      return contacts;
-    }
-
-    return contacts.filter(([_, contact]) =>
-      contact.name.toLowerCase().includes(search.toLowerCase())
-    );
+    return contacts
+      .filter(
+        ([_, contact]) =>
+          search
+            ? contact.name.toLowerCase().includes(search.toLowerCase())
+            : contact
+      )
+      .filter(([_, a]) => (this.state.freeGift ? a.freeGift : a))
+      .filter(
+        ([_, a]) => (this.state.sabbathInvitation ? a.sabbathInvitation : a)
+      )
+      .filter(
+        ([_, a]) => (this.state.openingInvitation ? a.openingInvitation : a)
+      )
+      .filter(([_, a]) => (this.state.childEnrolled ? a.childEnrolled : a));
   };
 
   getAreaLeader = contact => {
@@ -111,25 +124,86 @@ export default class Contacts extends React.Component {
 
     return (
       <Article>
-        <Header fixed float={false} pad={{ horizontal: 'medium' }}>
-          <Box direction="row" justify="between" flex={true}>
-            <Title>Contacts</Title>
+        <Header
+          fixed
+          float={false}
+          pad={{ horizontal: 'medium' }}
+          direction="column"
+          align="stretch"
+        >
+          <Box flex direction="row" justify="between">
+            <Box direction="row" justify="between" flex={true} align="center">
+              <Title>Contacts</Title>
 
-            <Box flex={true} justify="end" direction="row" responsive={true}>
-              <Search
-                inline={true}
-                fill={true}
-                size="medium"
-                placeHolder="Search"
-                dropAlign={{ right: 'right' }}
-                value={this.state.search}
-                onDOMChange={e => this.setState({ search: e.target.value })}
-              />
+              <Box flex={true} justify="end" direction="row" responsive={true}>
+                <Search
+                  inline={true}
+                  fill={true}
+                  size="medium"
+                  placeHolder="Search"
+                  dropAlign={{ right: 'right' }}
+                  value={this.state.search}
+                  onDOMChange={e => this.setState({ search: e.target.value })}
+                />
+              </Box>
+            </Box>
+
+            <Box pad={{ horizontal: 'small', vertical: 'small' }}>
+              <Button label="New Contact" path="contacts/new" />
             </Box>
           </Box>
 
-          <Box pad={{ horizontal: 'small', vertical: 'small' }}>
-            <Button label="New Contact" path="contacts/new" />
+          <Box
+            flex
+            direction="row"
+            pad={{ horizontal: 'medium' }}
+            justify="center"
+          >
+            <Box pad={{ vertical: 'small' }}>
+              <CheckBox
+                label="Free Gift"
+                checked={this.state.freeGift}
+                onChange={({ target }) =>
+                  this.setState({ freeGift: target.checked })
+                }
+              />
+            </Box>
+
+            <Box pad={{ vertical: 'small' }}>
+              <CheckBox
+                label="Opening Invitation"
+                checked={this.state.openingInvitation}
+                onChange={({ target }) =>
+                  this.setState({
+                    openingInvitation: target.checked
+                  })
+                }
+              />
+            </Box>
+
+            <Box pad={{ vertical: 'small' }}>
+              <CheckBox
+                label="Sabbath Invitation"
+                checked={this.state.sabbathInvitation}
+                onChange={({ target }) =>
+                  this.setState({
+                    sabbathInvitation: target.checked
+                  })
+                }
+              />
+            </Box>
+
+            <Box pad={{ vertical: 'small' }}>
+              <CheckBox
+                label="Child Enrolled"
+                checked={this.state.childEnrolled}
+                onChange={({ target }) =>
+                  this.setState({
+                    childEnrolled: target.checked
+                  })
+                }
+              />
+            </Box>
           </Box>
         </Header>
 
@@ -172,7 +246,11 @@ export default class Contacts extends React.Component {
                       label="View"
                       path={`contacts/${key}`}
                       primary
-                      style={{ padding: '0 4px', minWidth: 0, marginRight: 2 }}
+                      style={{
+                        padding: '0 4px',
+                        minWidth: 0,
+                        marginRight: 2
+                      }}
                     />
                   </Box>
 
