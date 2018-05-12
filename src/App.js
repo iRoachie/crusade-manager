@@ -3,7 +3,6 @@ import {
   BrowserRouter as Router,
   Route,
   Switch,
-  NavLink,
   Redirect
 } from 'react-router-dom';
 
@@ -19,6 +18,7 @@ import {
 } from './screens';
 
 import App from 'grommet/components/App';
+import Anchor from 'grommet/components/Anchor';
 import Sidebar from 'grommet/components/Sidebar';
 import Header from 'grommet/components/Header';
 import Title from 'grommet/components/Title';
@@ -38,15 +38,9 @@ export default class Root extends Component {
               </Header>
               <Box flex="grow" justify="start">
                 <Menu primary={true}>
-                  <NavLink to="/areas" activeClassName="active">
-                    Areas
-                  </NavLink>
-                  <NavLink to="/members" activeClassName="active">
-                    Members
-                  </NavLink>
-                  <NavLink to="/contacts" activeClassName="active">
-                    Contacts
-                  </NavLink>
+                  <Anchor path="/areas">Areas</Anchor>
+                  <Anchor path="/members">Members</Anchor>
+                  <Anchor path="/contacts">Contacts</Anchor>
                 </Menu>
               </Box>
             </Sidebar>
