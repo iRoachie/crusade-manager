@@ -5,14 +5,13 @@ import entries from 'object.entries';
 import Article from 'grommet/components/Article';
 import Header from 'grommet/components/Header';
 import Title from 'grommet/components/Title';
-import Heading from 'grommet/components/Heading';
 import Box from 'grommet/components/Box';
 import Search from 'grommet/components/Search';
 import Button from 'grommet/components/Button';
 import Label from 'grommet/components/Label';
 import Paragraph from 'grommet/components/Paragraph';
 
-import { Loading } from '../../components';
+import { Loading, Empty } from '../../components';
 
 export default class Members extends React.Component {
   state = {
@@ -111,10 +110,14 @@ export default class Members extends React.Component {
         <Loading visible={status === 'loading'} />
 
         {status === 'loaded' &&
+          this.state.members.length === 0 && (
+            <Empty message="No Members Added" />
+          )}
+
+        {status === 'loaded' &&
+          this.state.members.length > 0 &&
           members.length === 0 && (
-            <Box justify="center" flex align="center">
-              <Heading tag="h4"> No Members Added </Heading>
-            </Box>
+            <Empty message="No Members found for that search" />
           )}
 
         {status === 'loaded' &&

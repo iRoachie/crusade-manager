@@ -11,7 +11,7 @@ import Button from 'grommet/components/Button';
 import Paragraph from 'grommet/components/Paragraph';
 import Section from 'grommet/components/Section';
 
-import { Loading, PersonCard } from '../../components';
+import { Empty, Loading, PersonCard } from '../../components';
 
 export default class Area extends React.Component {
   state = {
@@ -71,13 +71,15 @@ export default class Area extends React.Component {
         <Loading visible={this.state.loading} />
 
         {this.state.loading ? null : !area ? (
-          <Box flex={true} pad={{ vertical: 'medium' }} align="center">
-            <Heading tag="h3">Area Not Found</Heading>
-
-            <Box pad={{ vertical: 'small' }}>
-              <Button label="Back to Areas" path="/areas" />
-            </Box>
-          </Box>
+          <Empty
+            message="Area Not Found"
+            large
+            render={
+              <Box pad={{ vertical: 'small' }}>
+                <Button label="Back to Areas" path="/areas" />
+              </Box>
+            }
+          />
         ) : (
           <Article>
             <Header fixed float={false} pad={{ horizontal: 'medium' }}>

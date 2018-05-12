@@ -18,7 +18,7 @@ import Select from 'grommet/components/Select';
 import CheckBox from 'grommet/components/CheckBox';
 import Toast from 'grommet/components/Toast';
 
-import { Alert, Loading } from '../../components';
+import { Alert, Empty, Loading } from '../../components';
 
 export default class Contact extends React.Component {
   state = {
@@ -147,13 +147,15 @@ export default class Contact extends React.Component {
         <Loading visible={this.state.loading} />
 
         {this.state.loading ? null : !contact ? (
-          <Box flex={true} pad={{ vertical: 'medium' }} align="center">
-            <Heading tag="h3">Contact Not Found</Heading>
-
-            <Box pad={{ vertical: 'small' }}>
-              <Button label="Back to Contacts" path="/contacts" />
-            </Box>
-          </Box>
+          <Empty
+            message="Contact Not Found"
+            large
+            render={
+              <Box pad={{ vertical: 'small' }}>
+                <Button label="Back to Contacts" path="/contacts" />
+              </Box>
+            }
+          />
         ) : (
           <Article>
             <Header fixed float={false} direction="column" align="stretch">
