@@ -21,10 +21,8 @@ export default class Contacts extends React.Component {
     members: null,
     areas: [],
     contacts: [],
-    freeGift: false,
     openingInvitation: false,
-    sabbathInvitation: false,
-    childEnrolled: false
+    sabbathInvitation: false
   };
 
   componentDidMount() {
@@ -95,14 +93,12 @@ export default class Contacts extends React.Component {
             ? contact.name.toLowerCase().includes(search.toLowerCase())
             : contact
       )
-      .filter(([_, a]) => (this.state.freeGift ? a.freeGift : a))
       .filter(
         ([_, a]) => (this.state.sabbathInvitation ? a.sabbathInvitation : a)
       )
       .filter(
         ([_, a]) => (this.state.openingInvitation ? a.openingInvitation : a)
-      )
-      .filter(([_, a]) => (this.state.childEnrolled ? a.childEnrolled : a));
+      );
   };
 
   getAreaLeader = contact => {
@@ -164,16 +160,6 @@ export default class Contacts extends React.Component {
           >
             <Box pad={{ vertical: 'small' }}>
               <CheckBox
-                label="Free Gift"
-                checked={this.state.freeGift}
-                onChange={({ target }) =>
-                  this.setState({ freeGift: target.checked })
-                }
-              />
-            </Box>
-
-            <Box pad={{ vertical: 'small' }}>
-              <CheckBox
                 label="Opening Invitation"
                 checked={this.state.openingInvitation}
                 onChange={({ target }) =>
@@ -191,18 +177,6 @@ export default class Contacts extends React.Component {
                 onChange={({ target }) =>
                   this.setState({
                     sabbathInvitation: target.checked
-                  })
-                }
-              />
-            </Box>
-
-            <Box pad={{ vertical: 'small' }}>
-              <CheckBox
-                label="Child Enrolled"
-                checked={this.state.childEnrolled}
-                onChange={({ target }) =>
-                  this.setState({
-                    childEnrolled: target.checked
                   })
                 }
               />

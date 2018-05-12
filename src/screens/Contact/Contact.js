@@ -267,16 +267,6 @@ export default class Contact extends React.Component {
 
                     <Box pad={{ vertical: 'small' }}>
                       <CheckBox
-                        label="Free Gift"
-                        checked={contact.freeGift}
-                        onChange={({ target }) =>
-                          this.updateContact({ freeGift: target.checked })
-                        }
-                      />
-                    </Box>
-
-                    <Box pad={{ vertical: 'small' }}>
-                      <CheckBox
                         label="Opening Invitation"
                         checked={contact.openingInvitation}
                         onChange={({ target }) =>
@@ -294,18 +284,6 @@ export default class Contact extends React.Component {
                         onChange={({ target }) =>
                           this.updateContact({
                             sabbathInvitation: target.checked
-                          })
-                        }
-                      />
-                    </Box>
-
-                    <Box pad={{ vertical: 'small' }}>
-                      <CheckBox
-                        label="Child Enrolled"
-                        checked={contact.childEnrolled}
-                        onChange={({ target }) =>
-                          this.updateContact({
-                            childEnrolled: target.checked
                           })
                         }
                       />

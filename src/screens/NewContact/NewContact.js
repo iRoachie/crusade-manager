@@ -33,10 +33,8 @@ export default class NewContact extends React.Component {
     members: [],
     member1: null,
     member2: null,
-    freeGift: false,
     openingInvitation: false,
     sabbathInvitation: false,
-    childEnrolled: false,
     loading: false,
     toastVisible: false,
     submitting: false
@@ -101,10 +99,8 @@ export default class NewContact extends React.Component {
             email: '',
             address: '',
             comments: '',
-            freeGift: false,
             openingInvitation: false,
-            sabbathInvitation: false,
-            childEnrolled: false
+            sabbathInvitation: false
           });
         });
     });
@@ -238,16 +234,6 @@ export default class NewContact extends React.Component {
 
                     <Box pad={{ vertical: 'small' }}>
                       <CheckBox
-                        label="Free Gift"
-                        checked={this.state.freeGift}
-                        onChange={() => {
-                          this.setState({ freeGift: !this.state.freeGift });
-                        }}
-                      />
-                    </Box>
-
-                    <Box pad={{ vertical: 'small' }}>
-                      <CheckBox
                         label="Opening Invitation"
                         checked={this.state.openingInvitation}
                         onChange={() => {
@@ -265,18 +251,6 @@ export default class NewContact extends React.Component {
                         onChange={() => {
                           this.setState({
                             sabbathInvitation: !this.state.sabbathInvitation
-                          });
-                        }}
-                      />
-                    </Box>
-
-                    <Box pad={{ vertical: 'small' }}>
-                      <CheckBox
-                        label="Child Enrolled"
-                        checked={this.state.childEnrolled}
-                        onChange={() => {
-                          this.setState({
-                            childEnrolled: !this.state.childEnrolled
                           });
                         }}
                       />
