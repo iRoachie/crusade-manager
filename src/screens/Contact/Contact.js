@@ -23,7 +23,7 @@ export default class Contact extends React.Component {
   state = {
     loading: false,
     submitting: false,
-    contact: {},
+    contact: null,
     members: [],
     toastVisible: false,
     unsavedChanges: false
@@ -54,6 +54,12 @@ export default class Contact extends React.Component {
     this.setState({ loading: true }, () => {
       this.contactRef.on('value', snapshot => {
         const contact = snapshot.val();
+
+        if (contact.tracts) {
+          contact.tracts = Object.values(contact.tracts);
+        } else {
+          contact.tracts = [];
+        }
 
         if (contact) {
           this.setState({ contact });
@@ -93,6 +99,24 @@ export default class Contact extends React.Component {
         ...data
       },
       unsavedChanges: true
+    });
+  };
+
+  toggleTract = number => {
+    const { contact } = this.state;
+    let { tracts } = contact;
+
+    if (tracts.includes(number)) {
+      tracts = tracts.filter(a => a !== number);
+    } else {
+      tracts = [...tracts, number];
+    }
+
+    this.setState({
+      contact: {
+        ...contact,
+        tracts
+      }
     });
   };
 
@@ -299,6 +323,92 @@ export default class Contact extends React.Component {
                           })
                         }
                       />
+                    </Box>
+
+                    <Box pad={{ vertical: 'medium' }}>
+                      <Heading tag="h4" strong>
+                        Tracts
+                      </Heading>
+                      <Box>
+                        <Box direction="row">
+                          <Box pad={{ vertical: 'small' }}>
+                            <CheckBox
+                              label="1"
+                              checked={contact.tracts.includes(1)}
+                              onChange={() => {
+                                this.toggleTract(1);
+                              }}
+                            />
+                          </Box>
+                          <Box pad={{ vertical: 'small' }}>
+                            <CheckBox
+                              label="2"
+                              checked={contact.tracts.includes(2)}
+                              onChange={() => {
+                                this.toggleTract(2);
+                              }}
+                            />
+                          </Box>
+                          <Box pad={{ vertical: 'small' }}>
+                            <CheckBox
+                              label="3"
+                              checked={contact.tracts.includes(3)}
+                              onChange={() => {
+                                this.toggleTract(3);
+                              }}
+                            />
+                          </Box>
+                          <Box pad={{ vertical: 'small' }}>
+                            <CheckBox
+                              label="4"
+                              checked={contact.tracts.includes(4)}
+                              onChange={() => {
+                                this.toggleTract(4);
+                              }}
+                            />
+                          </Box>
+                        </Box>
+
+                        <Box direction="row">
+                          <Box pad={{ vertical: 'small' }}>
+                            <CheckBox
+                              label="5"
+                              checked={contact.tracts.includes(5)}
+                              onChange={() => {
+                                this.toggleTract(5);
+                              }}
+                            />
+                          </Box>
+
+                          <Box pad={{ vertical: 'small' }}>
+                            <CheckBox
+                              label="6"
+                              checked={contact.tracts.includes(6)}
+                              onChange={() => {
+                                this.toggleTract(6);
+                              }}
+                            />
+                          </Box>
+                          <Box pad={{ vertical: 'small' }}>
+                            <CheckBox
+                              label="7"
+                              checked={contact.tracts.includes(7)}
+                              onChange={() => {
+                                this.toggleTract(7);
+                              }}
+                            />
+                          </Box>
+                          <Box pad={{ vertical: 'small' }}>
+                            <CheckBox
+                              label="8"
+                              checked={contact.tracts.includes(8)}
+                              onChange={() => {
+                                this.toggleTract(8);
+                              }}
+                            />
+                          </Box>
+                        </Box>
+                      </Box>
                     </Box>
 
                     <Box pad={{ vertical: 'medium' }}>

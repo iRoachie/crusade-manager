@@ -33,6 +33,7 @@ export default class NewContact extends React.Component {
     members: [],
     member1: null,
     member2: null,
+    tracts: [],
     openingInvitation: false,
     sabbathInvitation: false,
     prayerClub: false,
@@ -99,6 +100,7 @@ export default class NewContact extends React.Component {
             cell: '',
             email: '',
             address: '',
+            tracts: [],
             comments: '',
             openingInvitation: false,
             sabbathInvitation: false,
@@ -106,6 +108,16 @@ export default class NewContact extends React.Component {
           });
         });
     });
+  };
+
+  toggleTract = number => {
+    const { tracts } = this.state;
+
+    if (tracts.includes(number)) {
+      this.setState({ tracts: tracts.filter(a => a !== number) });
+    } else {
+      this.setState({ tracts: [...tracts, number] });
+    }
   };
 
   render() {
@@ -268,6 +280,92 @@ export default class NewContact extends React.Component {
                           });
                         }}
                       />
+                    </Box>
+
+                    <Box pad={{ vertical: 'medium' }}>
+                      <Heading tag="h4" strong>
+                        Tracts
+                      </Heading>
+                      <Box>
+                        <Box direction="row">
+                          <Box pad={{ vertical: 'small' }}>
+                            <CheckBox
+                              label="1"
+                              checked={this.state.tracts.includes(1)}
+                              onChange={() => {
+                                this.toggleTract(1);
+                              }}
+                            />
+                          </Box>
+                          <Box pad={{ vertical: 'small' }}>
+                            <CheckBox
+                              label="2"
+                              checked={this.state.tracts.includes(2)}
+                              onChange={() => {
+                                this.toggleTract(2);
+                              }}
+                            />
+                          </Box>
+                          <Box pad={{ vertical: 'small' }}>
+                            <CheckBox
+                              label="3"
+                              checked={this.state.tracts.includes(3)}
+                              onChange={() => {
+                                this.toggleTract(3);
+                              }}
+                            />
+                          </Box>
+                          <Box pad={{ vertical: 'small' }}>
+                            <CheckBox
+                              label="4"
+                              checked={this.state.tracts.includes(4)}
+                              onChange={() => {
+                                this.toggleTract(4);
+                              }}
+                            />
+                          </Box>
+                        </Box>
+
+                        <Box direction="row">
+                          <Box pad={{ vertical: 'small' }}>
+                            <CheckBox
+                              label="5"
+                              checked={this.state.tracts.includes(5)}
+                              onChange={() => {
+                                this.toggleTract(5);
+                              }}
+                            />
+                          </Box>
+
+                          <Box pad={{ vertical: 'small' }}>
+                            <CheckBox
+                              label="6"
+                              checked={this.state.tracts.includes(6)}
+                              onChange={() => {
+                                this.toggleTract(6);
+                              }}
+                            />
+                          </Box>
+                          <Box pad={{ vertical: 'small' }}>
+                            <CheckBox
+                              label="7"
+                              checked={this.state.tracts.includes(7)}
+                              onChange={() => {
+                                this.toggleTract(7);
+                              }}
+                            />
+                          </Box>
+                          <Box pad={{ vertical: 'small' }}>
+                            <CheckBox
+                              label="8"
+                              checked={this.state.tracts.includes(8)}
+                              onChange={() => {
+                                this.toggleTract(8);
+                              }}
+                            />
+                          </Box>
+                        </Box>
+                      </Box>
                     </Box>
 
                     <Box pad={{ vertical: 'medium' }}>
