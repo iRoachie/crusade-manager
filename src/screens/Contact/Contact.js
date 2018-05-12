@@ -289,6 +289,18 @@ export default class Contact extends React.Component {
                       />
                     </Box>
 
+                    <Box pad={{ vertical: 'small' }}>
+                      <CheckBox
+                        label="Prayer Club"
+                        checked={contact.prayerClub}
+                        onChange={({ target }) =>
+                          this.updateContact({
+                            prayerClub: target.checked
+                          })
+                        }
+                      />
+                    </Box>
+
                     <Box pad={{ vertical: 'medium' }}>
                       <FormField label="Comments">
                         <textarea

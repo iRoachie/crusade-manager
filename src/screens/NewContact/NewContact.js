@@ -35,6 +35,7 @@ export default class NewContact extends React.Component {
     member2: null,
     openingInvitation: false,
     sabbathInvitation: false,
+    prayerClub: false,
     loading: false,
     toastVisible: false,
     submitting: false
@@ -100,7 +101,8 @@ export default class NewContact extends React.Component {
             address: '',
             comments: '',
             openingInvitation: false,
-            sabbathInvitation: false
+            sabbathInvitation: false,
+            prayerClub: false
           });
         });
     });
@@ -251,6 +253,18 @@ export default class NewContact extends React.Component {
                         onChange={() => {
                           this.setState({
                             sabbathInvitation: !this.state.sabbathInvitation
+                          });
+                        }}
+                      />
+                    </Box>
+
+                    <Box pad={{ vertical: 'small' }}>
+                      <CheckBox
+                        label="Prayer Club"
+                        checked={this.state.prayerClub}
+                        onChange={() => {
+                          this.setState({
+                            prayerClub: !this.state.prayerClub
                           });
                         }}
                       />

@@ -22,7 +22,8 @@ export default class Contacts extends React.Component {
     areas: [],
     contacts: [],
     openingInvitation: false,
-    sabbathInvitation: false
+    sabbathInvitation: false,
+    prayerClub: false
   };
 
   componentDidMount() {
@@ -96,6 +97,7 @@ export default class Contacts extends React.Component {
       .filter(
         ([_, a]) => (this.state.sabbathInvitation ? a.sabbathInvitation : a)
       )
+      .filter(([_, a]) => (this.state.prayerClub ? a.prayerClub : a))
       .filter(
         ([_, a]) => (this.state.openingInvitation ? a.openingInvitation : a)
       );
@@ -177,6 +179,18 @@ export default class Contacts extends React.Component {
                 onChange={({ target }) =>
                   this.setState({
                     sabbathInvitation: target.checked
+                  })
+                }
+              />
+            </Box>
+
+            <Box pad={{ vertical: 'small' }}>
+              <CheckBox
+                label="Prayer Club"
+                checked={this.state.prayerClub}
+                onChange={({ target }) =>
+                  this.setState({
+                    prayerClub: target.checked
                   })
                 }
               />
