@@ -90,10 +90,10 @@ export default class Member extends React.Component {
   saveChanges = () => {
     const { member } = this.state;
 
-    this.setState({ loading: true }, () => {
+    this.setState({ submitting: true }, () => {
       this.memberRef.set(member).then(() => {
         this.setState({
-          loading: false,
+          submitting: false,
           toastVisible: true,
           unsavedChanges: false
         });

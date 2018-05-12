@@ -22,6 +22,7 @@ import { Alert, Empty, Loading } from '../../components';
 export default class Contact extends React.Component {
   state = {
     loading: false,
+    submitting: false,
     contact: {},
     members: [],
     toastVisible: false,
@@ -98,10 +99,10 @@ export default class Contact extends React.Component {
   saveChanges = () => {
     const { contact } = this.state;
 
-    this.setState({ loading: true }, () => {
+    this.setState({ submitting: true }, () => {
       this.contactRef.set(contact).then(() => {
         this.setState({
-          loading: false,
+          submitting: false,
           toastVisible: true,
           unsavedChanges: false
         });
@@ -112,13 +113,13 @@ export default class Contact extends React.Component {
   displayMember = key => this.state.members.find(a => a.value === key);
 
   render() {
-    const { contact } = this.state;
+    const { contact, loading, submitting } = this.state;
 
     return (
       <React.Fragment>
-        <Loading visible={this.state.loading} />
+        <Loading visible={loading || submitting} />
 
-        {this.state.loading ? null : !contact ? (
+        {loading ? null : !contact ? (
           <Empty
             message="Contact Not Found"
             large
