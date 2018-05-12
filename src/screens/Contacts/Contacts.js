@@ -131,7 +131,7 @@ export default class Contacts extends React.Component {
           direction="column"
           align="stretch"
         >
-          <Box flex direction="row" justify="between">
+          <Box flex direction="row" justify="between" style={{ height: 72 }}>
             <Box direction="row" justify="between" flex={true} align="center">
               <Title>Contacts</Title>
 
@@ -148,7 +148,10 @@ export default class Contacts extends React.Component {
               </Box>
             </Box>
 
-            <Box pad={{ horizontal: 'small', vertical: 'small' }}>
+            <Box
+              pad={{ horizontal: 'small', vertical: 'small' }}
+              justify="center"
+            >
               <Button label="New Contact" path="contacts/new" />
             </Box>
           </Box>
