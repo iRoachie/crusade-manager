@@ -299,7 +299,10 @@ export default class NewContact extends React.Component {
                       <FormField label="Team Member 1">
                         <Select
                           value={this.state.member1}
-                          options={this.state.members}
+                          options={[
+                            { value: null, label: 'Unassigned' },
+                            ...this.state.members
+                          ]}
                           onChange={({ value }) => {
                             this.setState({ member1: value });
                           }}
@@ -311,7 +314,10 @@ export default class NewContact extends React.Component {
                       <FormField label="Team Member 2">
                         <Select
                           value={this.state.member2}
-                          options={this.state.members}
+                          options={[
+                            { value: null, label: 'Unassigned' },
+                            ...this.state.members
+                          ]}
                           onChange={({ value }) => {
                             this.setState({ member2: value });
                           }}
