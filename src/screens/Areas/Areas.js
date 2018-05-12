@@ -60,6 +60,8 @@ export default class Areas extends React.Component {
   render() {
     const areas = this.filterList();
 
+    const { status } = this.state;
+
     return (
       <Article>
         <Header fixed float={false} pad={{ horizontal: 'medium' }}>
@@ -83,16 +85,16 @@ export default class Areas extends React.Component {
           </Box>
         </Header>
 
-        {this.state.status === 'loading' && <Loading />}
+        <Loading visible={status === 'loading'} />
 
-        {this.state.status === 'loaded' &&
+        {status === 'loaded' &&
           this.state.areas.length === 0 && (
             <Box justify="center" flex align="center">
               <Heading tag="h4"> No Areas Added </Heading>
             </Box>
           )}
 
-        {this.state.status === 'loaded' &&
+        {status === 'loaded' &&
           this.state.areas.length > 0 && (
             <Box
               pad={{ horizontal: 'medium', vertical: 'medium' }}

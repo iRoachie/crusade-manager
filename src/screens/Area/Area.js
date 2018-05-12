@@ -68,9 +68,9 @@ export default class Area extends React.Component {
 
     return (
       <React.Fragment>
-        {this.state.loading ? (
-          <Loading />
-        ) : !area ? (
+        <Loading visible={this.state.loading} />
+
+        {this.state.loading ? null : !area ? (
           <Box flex={true} pad={{ vertical: 'medium' }} align="center">
             <Heading tag="h3">Area Not Found</Heading>
 

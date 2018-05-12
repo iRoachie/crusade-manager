@@ -109,7 +109,7 @@ export default class Contacts extends React.Component {
           </Box>
         </Header>
 
-        {status === 'loading' && <Loading />}
+        <Loading visible={status === 'loading'} />
 
         {status === 'loaded' &&
           contacts.length === 0 && (

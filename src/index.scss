@@ -5,7 +5,7 @@
 }
 
 .grommetux-header__container {
-  border: 1px solid #f5f5f5;
+  border-bottom: 1px solid #f5f5f5;
 }
 
 .arealeader-box {
@@ -25,4 +25,17 @@
 .arealeader-box__label {
   font-weight: 500;
   font-size: 13px;
+}
+
+.loading {
+  transition: 300ms;
+  max-height: 0;
+  padding: 0;
+  opacity: 0;
+}
+
+.loading--visible {
+  max-height: 300px;
+  padding: 24px;
+  opacity: 1;
 }

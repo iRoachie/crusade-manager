@@ -128,10 +128,10 @@ export default class NewContact extends React.Component {
             <Title>New Contact</Title>
           </Header>
 
-          {this.state.loading ? (
-            <Loading />
-          ) : (
-            <Box pad={{ horizontal: 'medium' }}>
+          <Loading visible={this.state.loading} />
+
+          {this.state.loading ? null : (
+            <Box pad={{ horizontal: 'medium', vertical: 'medium' }}>
               <Form
                 onSubmit={this.addContact}
                 disabled={this.state.submitting}

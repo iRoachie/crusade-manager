@@ -108,7 +108,7 @@ export default class Members extends React.Component {
           </Box>
         </Header>
 
-        {status === 'loading' && <Loading />}
+        <Loading visible={status === 'loading'} />
 
         {status === 'loaded' &&
           members.length === 0 && (

@@ -112,9 +112,9 @@ export default class NewMember extends React.Component {
             <Title>New Member</Title>
           </Header>
 
-          {this.state.loading ? (
-            <Loading />
-          ) : (
+          <Loading visible={this.state.loading} />
+
+          {!this.state.loading && (
             <Box pad={{ horizontal: 'medium' }}>
               <Form onSubmit={this.addMember} disabled={this.state.submitting}>
                 <FormFields>
