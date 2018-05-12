@@ -6,6 +6,7 @@ import NewMember from './NewMember';
 import Area from './Area';
 import NewContact from './NewContact';
 import Contact from './Contact';
+import Member from './Member';
 
 export {
   Contacts,
@@ -15,5 +16,6 @@ export {
   Members,
   NewMember,
   Area,
-  Contact
+  Contact,
+  Member
 };
