@@ -1,0 +1,15 @@
+language: node_js
+node_js: "current"
+cache: yarn
+
+install:
+- yarn
+
+script:
+- npm run build-ci
+
+deploy:
+  provider: surge
+  project: ./build/
+  domain: crusade-manager.surge.sh
+  skip_cleanup: true
