@@ -228,9 +228,9 @@ export default class Contacts extends React.Component {
                 >
                   <Box
                     justify="between"
-                    flex={true}
                     direction="row"
                     responsive={false}
+                    align="start"
                   >
                     <Title>{contact.name}</Title>
                     <Button
@@ -256,21 +256,21 @@ export default class Contacts extends React.Component {
                     <Paragraph className="arealeader-box__label" margin="none">
                       House Phone
                     </Paragraph>
-                    <Label margin="none">{contact.house}</Label>
+                    <Label margin="none">{contact.house || '-'}</Label>
                   </Box>
 
                   <Box pad={{ vertical: 'small' }}>
                     <Paragraph className="arealeader-box__label" margin="none">
                       Cell Phone
                     </Paragraph>
-                    <Label margin="none">{contact.cell}</Label>
+                    <Label margin="none">{contact.cell || '-'}</Label>
                   </Box>
 
                   <Box pad={{ vertical: 'small' }}>
                     <Paragraph className="arealeader-box__label" margin="none">
                       Email
                     </Paragraph>
-                    <Label margin="none">{contact.email}</Label>
+                    <Label margin="none">{contact.email || '-'}</Label>
                   </Box>
                 </Box>
               ))}
