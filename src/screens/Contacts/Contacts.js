@@ -17,6 +17,7 @@ export default class Contacts extends React.Component {
   state = {
     search: '',
     status: 'initial',
+    members: null,
     areas: [],
     contacts: []
   };
@@ -25,13 +26,16 @@ export default class Contacts extends React.Component {
     const database = firebase.database();
     this.contactsRef = database.ref('/contacts');
     this.areasRef = database.ref('/areas');
+    this.membersRef = database.ref('/members');
     this.getAreas();
     this.getContacts();
+    this.getMembers();
   }
 
   componentWillUnmount() {
     this.contactsRef.off();
     this.areasRef.off();
+    this.membersRef.off();
   }
 
   getAreas = () => {
@@ -41,6 +45,20 @@ export default class Contacts extends React.Component {
 
         if (areas) {
           this.setState({ areas: entries(areas), status: 'loaded' });
+        } else {
+          this.setState({ status: 'loaded' });
+        }
+      });
+    });
+  };
+
+  getMembers = () => {
+    this.setState({ status: 'loading' }, () => {
+      this.membersRef.on('value', snapshot => {
+        const members = snapshot.val();
+
+        if (members) {
+          this.setState({ members: entries(members), status: 'loaded' });
         } else {
           this.setState({ status: 'loaded' });
         }
@@ -75,14 +93,21 @@ export default class Contacts extends React.Component {
   };
 
   getAreaLeader = contact => {
-    const areaRef = contact.areaRef;
-    const area = this.state.areas.find(a => a[0] === areaRef);
-    return area ? area[1].leader : 'NO AREA LEADER';
+    if (contact.member1) {
+      const memberRef = contact.member1;
+      const areaRef = this.state.members.find(a => a[0] === memberRef)[1].area;
+
+      if (areaRef) {
+        return this.state.areas.find(a => a[0] === areaRef)[1].leader;
+      }
+    }
+
+    return 'NO AREA LEADER';
   };
 
   render() {
     const contacts = this.filterList();
-    const { status } = this.state;
+    const { status, members } = this.state;
 
     return (
       <Article>
@@ -121,7 +146,8 @@ export default class Contacts extends React.Component {
           )}
 
         {status === 'loaded' &&
-          contacts.length > 0 && (
+          contacts.length > 0 &&
+          members && (
             <Box
               pad={{ horizontal: 'medium', vertical: 'medium' }}
               flex={true}

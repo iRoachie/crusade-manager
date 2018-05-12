@@ -9,7 +9,6 @@ import Title from 'grommet/components/Title';
 import Heading from 'grommet/components/Heading';
 import Box from 'grommet/components/Box';
 import Button from 'grommet/components/Button';
-import Paragraph from 'grommet/components/Paragraph';
 import Form from 'grommet/components/Form';
 import FormFields from 'grommet/components/FormFields';
 import FormField from 'grommet/components/FormField';
@@ -24,7 +23,6 @@ export default class Contact extends React.Component {
   state = {
     loading: false,
     contact: {},
-    area: {},
     members: [],
     toastVisible: false,
     unsavedChanges: false
@@ -34,7 +32,6 @@ export default class Contact extends React.Component {
     const { contactRef } = this.props.match.params;
     const database = firebase.database();
     this.contactRef = database.ref(`/contacts/${contactRef}`);
-    this.areaRef = database.ref('/areas');
     this.membersRef = database.ref('/members');
     this.getContact();
     this.getMembers();
@@ -43,7 +40,6 @@ export default class Contact extends React.Component {
 
   componentWillUnmount() {
     this.contactRef.off();
-    this.areaRef.off();
     this.membersRef.off();
   }
 
@@ -60,7 +56,6 @@ export default class Contact extends React.Component {
 
         if (contact) {
           this.setState({ contact });
-          this.getArea(contact.areaRef);
         } else {
           this.setState({ loading: false, contact: null });
         }
@@ -89,22 +84,6 @@ export default class Contact extends React.Component {
     });
   };
 
-  getArea = areaRef => {
-    this.setState({ loading: true }, () => {
-      this.areaRef = firebase.database().ref(`/areas/${areaRef}`);
-
-      this.areaRef.on('value', snapshot => {
-        const area = snapshot.val();
-
-        if (area) {
-          this.setState({ area, loading: false });
-        } else {
-          this.setState({ loading: false, area: null });
-        }
-      });
-    });
-  };
-
   updateContact = data => {
     const { contact } = this.state;
     this.setState({
@@ -117,14 +96,7 @@ export default class Contact extends React.Component {
   };
 
   saveChanges = () => {
-    const { contact, members } = this.state;
-
-    // Change areaRef for contact based on member
-    if (contact.member1) {
-      contact.areaRef = members.find(a => a.value === contact.member1).areaRef;
-    } else {
-      delete contact.areaRef;
-    }
+    const { contact } = this.state;
 
     this.setState({ loading: true }, () => {
       this.contactRef.set(contact).then(() => {
@@ -140,7 +112,7 @@ export default class Contact extends React.Component {
   displayMember = key => this.state.members.find(a => a.value === key);
 
   render() {
-    const { contact, area } = this.state;
+    const { contact } = this.state;
 
     return (
       <React.Fragment>
@@ -163,11 +135,9 @@ export default class Contact extends React.Component {
                 <Box
                   flex={true}
                   pad={{ horizontal: 'medium', vertical: 'small' }}
+                  justify="center"
                 >
                   <Title>{`Contact | ${contact.name}`}</Title>
-                  <Paragraph margin="none">
-                    {area ? `Area Leader - ${area.leader}` : 'No Area Leader'}
-                  </Paragraph>
                 </Box>
 
                 <Box pad={{ horizontal: 'small', vertical: 'small' }}>
