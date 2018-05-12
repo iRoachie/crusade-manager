@@ -39,3 +39,28 @@
   padding: 24px;
   opacity: 1;
 }
+
+.alert {
+  transition: 300ms;
+  max-height: 0;
+  padding: 0 12px;
+  opacity: 0;
+
+  .grommetux-box {
+    padding: 0;
+  }
+
+  .grommetux-status-icon {
+    display: none;
+  }
+
+  .grommetux-notification__message {
+    padding-left: 12px;
+  }
+}
+
+.alert--visible {
+  max-height: 300px;
+  padding: 12px;
+  opacity: 1;
+}

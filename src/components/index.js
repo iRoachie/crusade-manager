@@ -1,4 +1,5 @@
 import Loading from './Loading';
 import PersonCard from './PersonCard';
+import Alert from './Alert';
 
-export { Loading, PersonCard };
+export { Alert, Loading, PersonCard };

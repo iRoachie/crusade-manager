@@ -5,5 +5,15 @@ import Members from './Members';
 import NewMember from './NewMember';
 import Area from './Area';
 import NewContact from './NewContact';
+import Contact from './Contact';
 
-export { Contacts, NewContact, Areas, NewArea, Members, NewMember, Area };
+export {
+  Contacts,
+  NewContact,
+  Areas,
+  NewArea,
+  Members,
+  NewMember,
+  Area,
+  Contact
+};

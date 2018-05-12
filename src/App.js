@@ -14,7 +14,8 @@ import {
   Members,
   NewMember,
   Area,
-  NewContact
+  NewContact,
+  Contact
 } from './screens';
 
 import App from 'grommet/components/App';
@@ -63,6 +64,7 @@ export default class Root extends Component {
               <Route exact path="/members/new" component={NewMember} />
               <Route exact path="/contacts" component={Contacts} />
               <Route exact path="/contacts/new" component={NewContact} />
+              <Route exact path="/contacts/:contactRef" component={Contact} />
             </Switch>
           </Split>
         </Router>
