@@ -31,7 +31,7 @@ export default class Root extends Component {
       <App centered={false}>
         <Router>
           <Split priority="right" flex="right">
-            <Sidebar colorIndex="brand">
+            <Sidebar colorIndex="brand" id="sidebar">
               <Header pad="medium" justify="between">
                 <Title>Crusade Manager</Title>
               </Header>

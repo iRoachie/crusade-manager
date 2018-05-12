@@ -1,5 +1,13 @@
 @import 'grommet/scss/vanilla/index';
 
+#sidebar {
+  max-width: 270px;
+}
+
+.grommetux-header__container {
+  border: 1px solid #f5f5f5;
+}
+
 .arealeader-box {
   margin-bottom: 10px;
   width: 100%;
