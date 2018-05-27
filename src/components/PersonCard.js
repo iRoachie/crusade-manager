@@ -16,21 +16,21 @@ const PersonCard = ({ person }) => (
       <Paragraph className="arealeader-box__label" margin="none">
         House Phone
       </Paragraph>
-      <Label margin="none">{person.house}</Label>
+      <Label margin="none">{person.house || '-'}</Label>
     </Box>
 
     <Box pad={{ vertical: 'small' }}>
       <Paragraph className="arealeader-box__label" margin="none">
         Cell Phone
       </Paragraph>
-      <Label margin="none">{person.cell}</Label>
+      <Label margin="none">{person.cell || '-'}</Label>
     </Box>
 
     <Box pad={{ vertical: 'small' }}>
       <Paragraph className="arealeader-box__label" margin="none">
         Email
       </Paragraph>
-      <Label margin="none">{person.email}</Label>
+      <Label margin="none">{person.email || '-'}</Label>
     </Box>
   </Box>
 );
