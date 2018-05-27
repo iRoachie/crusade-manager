@@ -30,9 +30,8 @@ export default class NewContact extends React.Component {
     cell: '',
     email: '',
     comments: '',
-    members: [],
-    member1: null,
-    member2: null,
+    areaLeaders: [],
+    areaLeader: null,
     tracts: [],
     openingInvitation: false,
     sabbathInvitation: false,
@@ -44,7 +43,7 @@ export default class NewContact extends React.Component {
 
   componentDidMount() {
     const database = firebase.database();
-    this.ref = database.ref('/members');
+    this.ref = database.ref('/areas');
     this.getLeaders();
   }
 
@@ -55,14 +54,13 @@ export default class NewContact extends React.Component {
   getLeaders = () => {
     this.setState({ loading: true }, () => {
       this.ref.on('value', snapshot => {
-        const members = snapshot.val();
+        const areas = snapshot.val();
 
-        if (members) {
+        if (areas) {
           this.setState({
-            members: entries(members).map(([key, member]) => ({
+            areaLeaders: entries(areas).map(([key, area]) => ({
               value: key,
-              areaRef: member.area,
-              label: member.name
+              label: area.leader
             })),
             loading: false
           });
@@ -75,22 +73,24 @@ export default class NewContact extends React.Component {
 
   addContact = e => {
     e.preventDefault();
-    const { loading, submitting, toastVisible, members, ...rest } = this.state;
+    const {
+      loading,
+      submitting,
+      toastVisible,
+      areaLeaders,
+      areaLeader,
+      ...contact
+    } = this.state;
 
-    if (rest.member1) {
-      rest.member1 = rest.member1.value;
-      rest.areaRef = this.state.members[0].areaRef;
-    }
-
-    if (rest.member2) {
-      rest.member2 = rest.member2.value;
+    if (areaLeader) {
+      contact.areaRef = areaLeader.value;
     }
 
     this.setState({ submitting: true }, () => {
       const database = firebase.database();
       database
         .ref('/contacts')
-        .push(rest)
+        .push(contact)
         .then(() => {
           this.setState({
             toastVisible: !toastVisible,
@@ -382,30 +382,15 @@ export default class NewContact extends React.Component {
                     </Box>
 
                     <Box pad={{ vertical: 'small' }}>
-                      <FormField label="Team Member 1">
+                      <FormField label="Area Leader">
                         <Select
-                          value={this.state.member1}
+                          value={this.state.areaLeader}
                           options={[
                             { value: null, label: 'Unassigned' },
-                            ...this.state.members
+                            ...this.state.areaLeaders
                           ]}
                           onChange={({ value }) => {
-                            this.setState({ member1: value });
-                          }}
-                        />
-                      </FormField>
-                    </Box>
-
-                    <Box pad={{ vertical: 'small' }}>
-                      <FormField label="Team Member 2">
-                        <Select
-                          value={this.state.member2}
-                          options={[
-                            { value: null, label: 'Unassigned' },
-                            ...this.state.members
-                          ]}
-                          onChange={({ value }) => {
-                            this.setState({ member2: value });
+                            this.setState({ areaLeader: value });
                           }}
                         />
                       </FormField>

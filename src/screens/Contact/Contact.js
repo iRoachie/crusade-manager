@@ -24,7 +24,7 @@ export default class Contact extends React.Component {
     loading: false,
     submitting: false,
     contact: null,
-    members: [],
+    areaLeaders: [],
     toastVisible: false,
     unsavedChanges: false
   };
@@ -33,15 +33,15 @@ export default class Contact extends React.Component {
     const { contactRef } = this.props.match.params;
     const database = firebase.database();
     this.contactRef = database.ref(`/contacts/${contactRef}`);
-    this.membersRef = database.ref('/members');
+    this.areasRef = database.ref('/areas');
     this.getContact();
-    this.getMembers();
+    this.getAreas();
     window.onbeforeunload = this.unloadPage;
   }
 
   componentWillUnmount() {
     this.contactRef.off();
-    this.membersRef.off();
+    this.areasRef.off();
   }
 
   unloadPage = () => {
@@ -70,17 +70,16 @@ export default class Contact extends React.Component {
     });
   };
 
-  getMembers = () => {
+  getAreas = () => {
     this.setState({ loading: true }, () => {
-      this.membersRef.on('value', snapshot => {
-        const members = snapshot.val();
+      this.areasRef.on('value', snapshot => {
+        const areas = snapshot.val();
 
-        if (members) {
+        if (areas) {
           this.setState({
-            members: entries(members).map(([key, member]) => ({
+            areaLeaders: entries(areas).map(([key, area]) => ({
               value: key,
-              areaRef: member.area,
-              label: member.name
+              label: area.leader
             })),
             loading: false
           });
@@ -134,7 +133,7 @@ export default class Contact extends React.Component {
     });
   };
 
-  displayMember = key => this.state.members.find(a => a.value === key);
+  displayAreaLeader = key => this.state.areaLeaders.find(a => a.value === key);
 
   render() {
     const { contact, loading, submitting } = this.state;
@@ -425,30 +424,15 @@ export default class Contact extends React.Component {
                     </Box>
 
                     <Box pad={{ vertical: 'small' }}>
-                      <FormField label="Team Member 1">
+                      <FormField label="Area Leader">
                         <Select
-                          value={this.displayMember(contact.member1)}
+                          value={this.displayAreaLeader(contact.areaRef)}
                           options={[
                             { value: null, label: 'Unassigned' },
-                            ...this.state.members
+                            ...this.state.areaLeaders
                           ]}
                           onChange={({ value }) => {
-                            this.updateContact({ member1: value.value });
-                          }}
-                        />
-                      </FormField>
-                    </Box>
-
-                    <Box pad={{ vertical: 'small' }}>
-                      <FormField label="Team Member 2">
-                        <Select
-                          value={this.displayMember(contact.member2)}
-                          options={[
-                            { value: null, label: 'Unassigned' },
-                            ...this.state.members
-                          ]}
-                          onChange={({ value }) => {
-                            this.updateContact({ member2: value.value });
+                            this.updateContact({ areaRef: value.value });
                           }}
                         />
                       </FormField>

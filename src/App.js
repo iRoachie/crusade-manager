@@ -6,17 +6,7 @@ import {
   Redirect
 } from 'react-router-dom';
 
-import {
-  Areas,
-  Contacts,
-  NewArea,
-  Members,
-  NewMember,
-  Area,
-  NewContact,
-  Contact,
-  Member
-} from './screens';
+import { Areas, Contacts, NewArea, Area, NewContact, Contact } from './screens';
 
 import App from 'grommet/components/App';
 import Anchor from 'grommet/components/Anchor';
@@ -40,7 +30,6 @@ export default class Root extends Component {
               <Box flex="grow" justify="start">
                 <Menu primary={true}>
                   <Anchor path="/areas">Area Leaders</Anchor>
-                  <Anchor path="/members">Members</Anchor>
                   <Anchor path="/contacts">Contacts</Anchor>
                 </Menu>
               </Box>
@@ -55,9 +44,6 @@ export default class Root extends Component {
               <Route exact path="/areas" component={Areas} />
               <Route exact path="/areas/new" component={NewArea} />
               <Route exact path="/areas/:areaRef" component={Area} />
-              <Route exact path="/members" component={Members} />
-              <Route exact path="/members/new" component={NewMember} />
-              <Route exact path="/members/:memberRef" component={Member} />
               <Route exact path="/contacts" component={Contacts} />
               <Route exact path="/contacts/new" component={NewContact} />
               <Route exact path="/contacts/:contactRef" component={Contact} />
