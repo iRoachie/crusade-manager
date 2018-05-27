@@ -99,7 +99,7 @@ export default class Contacts extends React.Component {
           direction="column"
           align="stretch"
         >
-          <Box flex direction="row" justify="between" style={{ height: 72 }}>
+          <Box flex direction="row" justify="between" className="header-inner">
             <Box direction="row" justify="between" flex={true} align="center">
               <Title>
                 Contacts
@@ -136,13 +136,7 @@ export default class Contacts extends React.Component {
             </Box>
           </Box>
 
-          <Box
-            flex
-            direction="row"
-            pad={{ horizontal: 'medium' }}
-            justify="center"
-            className="hide-print"
-          >
+          <Box flex direction="row" className="hide-print">
             <Box pad={{ vertical: 'small' }}>
               <CheckBox
                 label="Opening Invitation"
