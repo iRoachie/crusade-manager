@@ -8,11 +8,9 @@ import Title from 'grommet/components/Title';
 import Box from 'grommet/components/Box';
 import Search from 'grommet/components/Search';
 import Button from 'grommet/components/Button';
-import Label from 'grommet/components/Label';
-import Paragraph from 'grommet/components/Paragraph';
 import CheckBox from 'grommet/components/CheckBox';
 
-import { Empty, Loading } from '../../components';
+import { Empty, Loading, ContactCard } from '../../components';
 
 export default class Contacts extends React.Component {
   state = {
@@ -85,13 +83,8 @@ export default class Contacts extends React.Component {
       );
   };
 
-  getAreaLeader = ({ areaRef }) => {
-    if (areaRef) {
-      return this.state.areas.find(a => a[0] === areaRef)[1].leader;
-    }
-
-    return 'NO AREA LEADER';
-  };
+  getAreaLeader = ({ areaRef }) =>
+    areaRef && this.state.areas.find(a => a[0] === areaRef)[1].leader;
 
   render() {
     const contacts = this.filterList();
@@ -201,59 +194,12 @@ export default class Contacts extends React.Component {
               wrap={true}
             >
               {contacts.map(([key, contact]) => (
-                <Box
+                <ContactCard
+                  contact={contact}
                   key={key}
-                  pad={{ horizontal: 'small', vertical: 'small' }}
-                  colorIndex="light-2"
-                  className="arealeader-box"
-                >
-                  <Box
-                    justify="between"
-                    direction="row"
-                    responsive={false}
-                    align="start"
-                  >
-                    <Title>{contact.name}</Title>
-                    <Button
-                      label="View"
-                      path={`contacts/${key}`}
-                      primary
-                      style={{
-                        padding: '0 4px',
-                        minWidth: 0,
-                        marginRight: 2
-                      }}
-                    />
-                  </Box>
-
-                  <Box pad={{ vertical: 'small' }}>
-                    <Paragraph className="arealeader-box__label" margin="none">
-                      Area Leader
-                    </Paragraph>
-                    <Label margin="none">{this.getAreaLeader(contact)}</Label>
-                  </Box>
-
-                  <Box pad={{ vertical: 'small' }}>
-                    <Paragraph className="arealeader-box__label" margin="none">
-                      House Phone
-                    </Paragraph>
-                    <Label margin="none">{contact.house || '-'}</Label>
-                  </Box>
-
-                  <Box pad={{ vertical: 'small' }}>
-                    <Paragraph className="arealeader-box__label" margin="none">
-                      Cell Phone
-                    </Paragraph>
-                    <Label margin="none">{contact.cell || '-'}</Label>
-                  </Box>
-
-                  <Box pad={{ vertical: 'small' }}>
-                    <Paragraph className="arealeader-box__label" margin="none">
-                      Address
-                    </Paragraph>
-                    <Label margin="none">{contact.address || '-'}</Label>
-                  </Box>
-                </Box>
+                  path={key}
+                  areaLeader={this.getAreaLeader(key)}
+                />
               ))}
             </Box>
           )}

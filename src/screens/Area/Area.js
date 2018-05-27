@@ -11,21 +11,26 @@ import Button from 'grommet/components/Button';
 import Paragraph from 'grommet/components/Paragraph';
 import Section from 'grommet/components/Section';
 
-import { Empty, Loading, PersonCard } from '../../components';
+import { Empty, Loading, PersonCard, ContactCard } from '../../components';
 
 export default class Area extends React.Component {
   state = {
     loading: false,
     area: {},
-    members: []
+    contacts: []
   };
 
   componentDidMount() {
     const { areaRef } = this.props.match.params;
     const database = firebase.database();
     this.areaRef = database.ref(`/areas/${areaRef}`);
-    this.membersRef = database.ref('/members');
+    this.contactRef = database.ref('/contacts');
     this.getArea();
+  }
+
+  componentWillUnmount() {
+    this.areaRef.off();
+    this.contactRef.off();
   }
 
   getArea = () => {
@@ -34,7 +39,7 @@ export default class Area extends React.Component {
         const area = snapshot.val();
 
         if (area) {
-          this.getMembers(snapshot.key);
+          this.getContacts(snapshot.key);
           this.setState({ area });
         } else {
           this.setState({ loading: false, area: null });
@@ -43,25 +48,23 @@ export default class Area extends React.Component {
     });
   };
 
-  getMembers = areaRef => {
-    this.membersRef
-      .orderByChild('area')
+  getContacts = areaRef => {
+    this.contactRef
+      .orderByChild('areaRef')
       .equalTo(areaRef)
       .on('value', snapshot => {
-        const members = snapshot.val();
+        const contacts = snapshot.val();
 
-        if (members) {
-          this.setState({ members: entries(members), loading: false });
+        if (contacts) {
+          this.setState({ contacts: entries(contacts), loading: false });
         } else {
           this.setState({ loading: false });
         }
       });
   };
 
-  componentWillUnmount() {
-    this.areaRef.off();
-    this.membersRef.off();
-  }
+  getAreaLeader = ({ areaRef }) =>
+    areaRef && this.state.areas.find(a => a[0] === areaRef)[1].leader;
 
   render() {
     const { area } = this.state;
@@ -102,7 +105,9 @@ export default class Area extends React.Component {
             </Section>
 
             <Section pad={{ horizontal: 'medium', vertical: 'medium' }}>
-              <Heading tag="h3">Members ({this.state.members.length})</Heading>
+              <Heading tag="h3">
+                Contacts ({this.state.contacts.length})
+              </Heading>
 
               <Box
                 pad={{ vertical: 'medium' }}
@@ -110,8 +115,14 @@ export default class Area extends React.Component {
                 direction="row"
                 wrap={true}
               >
-                {this.state.members.map(([key, member]) => (
-                  <PersonCard key={key} person={member} />
+                {this.state.contacts.map(([key, contact]) => (
+                  <ContactCard
+                    key={key}
+                    showAreaLeader={false}
+                    path={key}
+                    contact={contact}
+                    areaLeader={this.getAreaLeader}
+                  />
                 ))}
               </Box>
             </Section>
