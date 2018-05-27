@@ -104,7 +104,10 @@ export default class Area extends React.Component {
               />
             </Section>
 
-            <Section pad={{ horizontal: 'medium', vertical: 'medium' }}>
+            <Section
+              pad={{ horizontal: 'medium', vertical: 'medium' }}
+              className="arealeader-contacts"
+            >
               <Heading tag="h3">
                 Contacts ({this.state.contacts.length})
               </Heading>
