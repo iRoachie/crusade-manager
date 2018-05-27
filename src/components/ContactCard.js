@@ -11,10 +11,17 @@ const ContactCard = ({ contact, path, areaLeader, showAreaLeader }) => (
     colorIndex="light-2"
     className="arealeader-box"
   >
-    <Box justify="between" direction="row" responsive={false} align="start">
-      <Title>{contact.name}</Title>
+    <Box
+      justify="between"
+      direction="row"
+      responsive={false}
+      align="start"
+      className="arealeader-box__item--name"
+    >
+      <Title className="arealeader-box__title">{contact.name}</Title>
       <Button
         label="View"
+        className="hide-print"
         path={`/contacts/${path}`}
         primary
         style={{
@@ -26,7 +33,7 @@ const ContactCard = ({ contact, path, areaLeader, showAreaLeader }) => (
     </Box>
 
     {showAreaLeader && (
-      <Box pad={{ vertical: 'small' }}>
+      <Box pad={{ vertical: 'small' }} className="arealeader-box__item">
         <Paragraph className="arealeader-box__label" margin="none">
           Area Leader
         </Paragraph>
@@ -34,21 +41,21 @@ const ContactCard = ({ contact, path, areaLeader, showAreaLeader }) => (
       </Box>
     )}
 
-    <Box pad={{ vertical: 'small' }}>
+    <Box pad={{ vertical: 'small' }} className="arealeader-box__item">
       <Paragraph className="arealeader-box__label" margin="none">
         House Phone
       </Paragraph>
       <Label margin="none">{contact.house || '-'}</Label>
     </Box>
 
-    <Box pad={{ vertical: 'small' }}>
+    <Box pad={{ vertical: 'small' }} className="arealeader-box__item">
       <Paragraph className="arealeader-box__label" margin="none">
         Cell Phone
       </Paragraph>
       <Label margin="none">{contact.cell || '-'}</Label>
     </Box>
 
-    <Box pad={{ vertical: 'small' }}>
+    <Box pad={{ vertical: 'small' }} className="arealeader-box__item">
       <Paragraph className="arealeader-box__label" margin="none">
         Address
       </Paragraph>

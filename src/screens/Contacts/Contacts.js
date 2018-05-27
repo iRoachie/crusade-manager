@@ -108,7 +108,13 @@ export default class Contacts extends React.Component {
                 </span>
               </Title>
 
-              <Box flex={true} justify="end" direction="row" responsive={true}>
+              <Box
+                flex={true}
+                justify="end"
+                direction="row"
+                responsive={true}
+                className="hide-print"
+              >
                 <Search
                   inline={true}
                   fill={true}
@@ -124,6 +130,7 @@ export default class Contacts extends React.Component {
             <Box
               pad={{ horizontal: 'small', vertical: 'small' }}
               justify="center"
+              className="hide-print"
             >
               <Button label="New Contact" path="contacts/new" />
             </Box>
@@ -134,6 +141,7 @@ export default class Contacts extends React.Component {
             direction="row"
             pad={{ horizontal: 'medium' }}
             justify="center"
+            className="hide-print"
           >
             <Box pad={{ vertical: 'small' }}>
               <CheckBox
