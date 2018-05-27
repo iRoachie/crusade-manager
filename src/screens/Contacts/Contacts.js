@@ -108,7 +108,12 @@ export default class Contacts extends React.Component {
         >
           <Box flex direction="row" justify="between" style={{ height: 72 }}>
             <Box direction="row" justify="between" flex={true} align="center">
-              <Title>Contacts</Title>
+              <Title>
+                Contacts
+                <span style={{ marginLeft: -8 }}>
+                  {status === 'loaded' && `(${this.state.contacts.length})`}
+                </span>
+              </Title>
 
               <Box flex={true} justify="end" direction="row" responsive={true}>
                 <Search
