@@ -129,28 +129,28 @@ export default class Areas extends React.Component {
                     <Paragraph className="arealeader-box__label" margin="none">
                       House Phone
                     </Paragraph>
-                    <Label margin="none">{item.house}</Label>
+                    <Label margin="none">{item.house || '-'}</Label>
                   </Box>
 
                   <Box pad={{ vertical: 'small' }}>
                     <Paragraph className="arealeader-box__label" margin="none">
                       Cell Phone
                     </Paragraph>
-                    <Label margin="none">{item.cell}</Label>
+                    <Label margin="none">{item.cell || '-'}</Label>
                   </Box>
 
                   <Box pad={{ vertical: 'small' }}>
                     <Paragraph className="arealeader-box__label" margin="none">
                       Email
                     </Paragraph>
-                    <Label margin="none">{item.email}</Label>
+                    <Label margin="none">{item.email || '-'}</Label>
                   </Box>
 
                   <Box pad={{ vertical: 'small' }}>
                     <Paragraph className="arealeader-box__label" margin="none">
                       Area Address
                     </Paragraph>
-                    <Label margin="none">{item.address}</Label>
+                    <Label margin="none">{item.address || '-'}</Label>
                   </Box>
                 </Box>
               ))}
