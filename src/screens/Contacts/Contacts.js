@@ -244,9 +244,9 @@ export default class Contacts extends React.Component {
 
                   <Box pad={{ vertical: 'small' }}>
                     <Paragraph className="arealeader-box__label" margin="none">
-                      Email
+                      Address
                     </Paragraph>
-                    <Label margin="none">{contact.email || '-'}</Label>
+                    <Label margin="none">{contact.address || '-'}</Label>
                   </Box>
                 </Box>
               ))}
