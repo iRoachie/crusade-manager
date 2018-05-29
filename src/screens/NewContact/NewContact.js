@@ -17,7 +17,8 @@ import Select from 'grommet/components/Select';
 import Spinning from 'grommet/components/icons/Spinning';
 import CheckBox from 'grommet/components/CheckBox';
 
-import { Loading } from '../../components';
+import { Alert, Loading } from '../../components';
+import { formatFirebaseArray } from '../../utils';
 
 import firebase from 'firebase';
 
@@ -38,18 +39,40 @@ export default class NewContact extends React.Component {
     prayerClub: false,
     loading: false,
     toastVisible: false,
-    submitting: false
+    submitting: false,
+    contacts: [],
+    showDuplicate: false
   };
 
   componentDidMount() {
     const database = firebase.database();
     this.ref = database.ref('/areas');
+    this.contactsRef = database.ref('/contacts');
     this.getLeaders();
+    this.getContacts();
   }
 
   componentWillUnmount() {
     this.ref.off();
+    this.contactsRef.off();
   }
+
+  getContacts = () => {
+    this.setState({ loading: true }, () => {
+      this.contactsRef.on('value', snapshot => {
+        const contacts = snapshot.val();
+
+        if (contacts) {
+          this.setState({
+            contacts: formatFirebaseArray(contacts),
+            loading: false
+          });
+        } else {
+          this.setState({ loading: false });
+        }
+      });
+    });
+  };
 
   getLeaders = () => {
     this.setState({ loading: true }, () => {
@@ -71,14 +94,34 @@ export default class NewContact extends React.Component {
     });
   };
 
+  isUnique = () => {
+    return (
+      this.state.contacts.filter(
+        a => a.name.toLowerCase() === this.state.name.toLowerCase()
+      ).length === 0
+    );
+  };
+
   addContact = e => {
     e.preventDefault();
+
+    if (!this.isUnique()) {
+      this.setState({ showDuplicate: true }, () => {
+        setTimeout(() => {
+          this.setState({ showDuplicate: false });
+        }, 2000);
+      });
+      return;
+    }
+
     const {
       loading,
       submitting,
       toastVisible,
       areaLeaders,
       areaLeader,
+      contacts,
+      showDuplicate,
       ...contact
     } = this.state;
 
@@ -137,6 +180,11 @@ export default class NewContact extends React.Component {
           <Header fixed float={false} pad={{ horizontal: 'medium' }}>
             <Title>New Contact</Title>
           </Header>
+
+          <Alert
+            visible={this.state.showDuplicate}
+            message="Duplicate Contact Name"
+          />
 
           <Loading visible={this.state.loading} />
 
