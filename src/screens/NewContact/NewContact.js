@@ -129,6 +129,9 @@ export default class NewContact extends React.Component {
       contact.areaRef = areaLeader.value;
     }
 
+    // Assign number
+    contact.number = contacts.length;
+
     this.setState({ submitting: true }, () => {
       const database = firebase.database();
       database
