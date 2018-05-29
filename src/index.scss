@@ -54,10 +54,21 @@
   }
 }
 
+.arealeader-box__number {
+  color: #7a64c8;
+  margin-right: 0 !important;
+}
+
 .arealeader-box__title {
+  font-size: 20px;
+
   @media print {
     margin-bottom: 16px;
   }
+}
+
+.arealeader-box__view {
+  font-size: 16px;
 }
 
 .arealeader-box__label {

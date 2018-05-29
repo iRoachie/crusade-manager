@@ -18,10 +18,13 @@ const ContactCard = ({ contact, path, areaLeader, showAreaLeader }) => (
       align="start"
       className="arealeader-box__item--name"
     >
-      <Title className="arealeader-box__title">{contact.name}</Title>
+      <Title className="arealeader-box__title">
+        <span className="arealeader-box__number">#{contact.number}</span>{' '}
+        {contact.name}
+      </Title>
       <Button
         label="View"
-        className="hide-print"
+        className="hide-print arealeader-box__view"
         path={`/contacts/${path}`}
         primary
         style={{
