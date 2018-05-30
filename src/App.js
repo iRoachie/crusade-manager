@@ -20,10 +20,13 @@ import App from 'grommet/components/App';
 import Anchor from 'grommet/components/Anchor';
 import Sidebar from 'grommet/components/Sidebar';
 import Header from 'grommet/components/Header';
+import Footer from 'grommet/components/Footer';
 import Title from 'grommet/components/Title';
 import Box from 'grommet/components/Box';
 import Menu from 'grommet/components/Menu';
 import Split from 'grommet/components/Split';
+import Button from 'grommet/components/Button';
+import Archive from 'grommet/components/icons/base/Archive';
 
 export default class Root extends Component {
   render() {
@@ -44,6 +47,17 @@ export default class Root extends Component {
                   </Anchor>
                 </Menu>
               </Box>
+
+              <Footer pad="medium">
+                <Button
+                  icon={<Archive />}
+                  label="Export"
+                  plain
+                  onClick={() =>
+                    window.open(process.env.REACT_APP_DOWNLOAD_LINK)
+                  }
+                />
+              </Footer>
             </Sidebar>
 
             <Switch>
