@@ -135,6 +135,15 @@ export default class Contact extends React.Component {
 
   displayAreaLeader = key => this.state.areaLeaders.find(a => a.value === key);
 
+  confirmDelete = () => {
+    if (window.confirm('Are your sure you want to delete this contact?')) {
+      this.contactRef.off();
+      this.contactRef.remove().then(() => {
+        this.props.history.push('/contacts');
+      });
+    }
+  };
+
   render() {
     const { contact, loading, submitting } = this.state;
 
@@ -164,8 +173,17 @@ export default class Contact extends React.Component {
                   <Title>{`Contact | ${contact.name}`}</Title>
                 </Box>
 
-                <Box pad={{ horizontal: 'small', vertical: 'small' }}>
-                  <Button label="Save Changes" onClick={this.saveChanges} />
+                <Box direction="row">
+                  <Box pad={{ horizontal: 'small', vertical: 'small' }}>
+                    <Button label="Save Changes" onClick={this.saveChanges} />
+                  </Box>
+                  <Box pad={{ horizontal: 'small', vertical: 'small' }}>
+                    <Button
+                      label="Delete"
+                      critical
+                      onClick={this.confirmDelete}
+                    />
+                  </Box>
                 </Box>
               </Box>
             </Header>
