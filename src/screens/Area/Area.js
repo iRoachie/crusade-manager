@@ -1,6 +1,7 @@
 import React from 'react';
 import firebase from 'firebase';
 import entries from 'object.entries';
+import { Prompt } from 'react-router-dom';
 
 import Article from 'grommet/components/Article';
 import Header from 'grommet/components/Header';
@@ -8,16 +9,22 @@ import Title from 'grommet/components/Title';
 import Heading from 'grommet/components/Heading';
 import Box from 'grommet/components/Box';
 import Button from 'grommet/components/Button';
-import Paragraph from 'grommet/components/Paragraph';
 import Section from 'grommet/components/Section';
+import FormFields from 'grommet/components/FormFields';
+import FormField from 'grommet/components/FormField';
+import TextInput from 'grommet/components/TextInput';
+import Toast from 'grommet/components/Toast';
 
-import { Empty, Loading, PersonCard, ContactCard } from '../../components';
+import { Empty, Loading, Alert, ContactCard } from '../../components';
 
 export default class Area extends React.Component {
   state = {
     loading: false,
     area: {},
-    contacts: []
+    contacts: [],
+    submitting: false,
+    toastVisible: false,
+    unsavedChanges: false
   };
 
   componentDidMount() {
@@ -26,12 +33,19 @@ export default class Area extends React.Component {
     this.areaRef = database.ref(`/areas/${areaRef}`);
     this.contactRef = database.ref('/contacts');
     this.getArea();
+    window.onbeforeunload = this.unloadPage;
   }
 
   componentWillUnmount() {
     this.areaRef.off();
     this.contactRef.off();
   }
+
+  unloadPage = () => {
+    if (this.state.unsavedChanges) {
+      return 'You have unsaved changes on this page. Do you want to leave this page and discard your changes or stay on this page?';
+    }
+  };
 
   getArea = () => {
     this.setState({ loading: true }, () => {
@@ -66,14 +80,41 @@ export default class Area extends React.Component {
   getAreaLeader = ({ areaRef }) =>
     areaRef && this.state.areas.find(a => a[0] === areaRef)[1].leader;
 
-  render() {
+  saveArea = e => {
+    e.preventDefault();
+
     const { area } = this.state;
+
+    this.setState({ submitting: true }, () => {
+      this.areaRef.set(area).then(() => {
+        this.setState({
+          submitting: false,
+          toastVisible: true,
+          unsavedChanges: false
+        });
+      });
+    });
+  };
+
+  updateArea = data => {
+    const { area } = this.state;
+    this.setState({
+      area: {
+        ...area,
+        ...data
+      },
+      unsavedChanges: true
+    });
+  };
+
+  render() {
+    const { area, loading, submitting } = this.state;
 
     return (
       <React.Fragment>
-        <Loading visible={this.state.loading} />
+        <Loading visible={loading || submitting} />
 
-        {this.state.loading ? null : !area ? (
+        {loading ? null : !area ? (
           <Empty
             message="Area Leader Not Found"
             large
@@ -85,24 +126,117 @@ export default class Area extends React.Component {
           />
         ) : (
           <Article>
-            <Header fixed float={false} pad={{ horizontal: 'medium' }}>
-              <Box flex={true}>
-                <Title>{`Area Leader | ${area.leader}`}</Title>
-                <Paragraph margin="none">{area.address}</Paragraph>
-              </Box>
-            </Header>
+            <form onSubmit={this.saveArea}>
+              <Header fixed float={false} direction="column" align="stretch">
+                <Box flex direction="row" justify="between">
+                  <Box
+                    flex={true}
+                    pad={{ horizontal: 'medium', vertical: 'small' }}
+                    justify="center"
+                  >
+                    <Title>{`Area Leader | ${area.leader}`}</Title>
+                  </Box>
 
-            <Section pad={{ horizontal: 'medium', vertical: 'medium' }}>
-              <Heading tag="h3">Leader Details</Heading>
+                  <Box direction="row">
+                    <Box pad={{ horizontal: 'small', vertical: 'small' }}>
+                      <Button type="submit" label="Save Changes" />
+                    </Box>
+                  </Box>
+                </Box>
+              </Header>
 
-              <PersonCard
-                person={{
-                  house: area.house,
-                  cell: area.cell,
-                  email: area.email
-                }}
+              <Alert
+                visible={this.state.unsavedChanges}
+                message="You have unsaved changes."
               />
-            </Section>
+
+              <Section pad={{ horizontal: 'medium', vertical: 'medium' }}>
+                <Heading tag="h3">Leader Details</Heading>
+
+                <Box pad={{ vertical: 'small' }}>
+                  <Box direction="row" justify="start">
+                    <div style={{ width: '480px', maxWidth: '100%' }}>
+                      <FormFields>
+                        <Box pad={{ vertical: 'small' }}>
+                          <FormField label="Leader Name">
+                            <TextInput
+                              value={area.leader}
+                              autoComplete="off"
+                              required
+                              onDOMChange={({ target }) =>
+                                this.updateArea({ leader: target.value })
+                              }
+                            />
+                          </FormField>
+                        </Box>
+
+                        <Box pad={{ vertical: 'small' }}>
+                          <FormField label="Area Address">
+                            <textarea
+                              value={area.address}
+                              autoComplete="off"
+                              rows={5}
+                              onChange={({ target }) =>
+                                this.updateArea({ address: target.value })
+                              }
+                            />
+                          </FormField>
+                        </Box>
+                      </FormFields>
+                    </div>
+
+                    <div
+                      style={{
+                        width: '480px',
+                        maxWidth: '100%',
+                        marginLeft: 60
+                      }}
+                    >
+                      <FormFields>
+                        <Box pad={{ vertical: 'small' }}>
+                          <FormField label="Leader House Number">
+                            <TextInput
+                              autoComplete="off"
+                              type="tel"
+                              value={area.house}
+                              onDOMChange={({ target }) =>
+                                this.updateArea({ house: target.value })
+                              }
+                            />
+                          </FormField>
+                        </Box>
+
+                        <Box pad={{ vertical: 'small' }}>
+                          <FormField label="Leader Cell Number">
+                            <TextInput
+                              value={area.cell}
+                              type="tel"
+                              autoComplete="off"
+                              onDOMChange={({ target }) =>
+                                this.updateArea({ cell: target.value })
+                              }
+                            />
+                          </FormField>
+                        </Box>
+
+                        <Box pad={{ vertical: 'small' }}>
+                          <FormField label="Leader Email Address">
+                            <TextInput
+                              autoComplete="off"
+                              type="email"
+                              value={area.email}
+                              onDOMChange={({ target }) =>
+                                this.updateArea({ email: target.value })
+                              }
+                            />
+                          </FormField>
+                        </Box>
+                      </FormFields>
+                    </div>
+                  </Box>
+                </Box>
+              </Section>
+            </form>
 
             <Section
               pad={{ horizontal: 'medium', vertical: 'medium' }}
@@ -131,6 +265,21 @@ export default class Area extends React.Component {
             </Section>
           </Article>
         )}
+
+        {this.state.toastVisible && (
+          <Toast
+            status="ok"
+            duration={2000}
+            onClose={() => this.setState({ toastVisible: false })}
+          >
+            Area Leader Updated.
+          </Toast>
+        )}
+
+        <Prompt
+          when={this.state.unsavedChanges}
+          message={location => `Are you sure you want to close without saving?`}
+        />
       </React.Fragment>
     );
   }
