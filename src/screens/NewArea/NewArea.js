@@ -67,70 +67,89 @@ export default class NewArea extends React.Component {
             <Title>New Area</Title>
           </Header>
 
-          <Box pad={{ horizontal: 'medium' }}>
-            <Form onSubmit={this.addArea} disabled={this.state.submitting}>
-              <FormFields>
-                <Box pad={{ vertical: 'small' }}>
-                  <FormField label="Leader Name">
-                    <TextInput
-                      value={this.state.leader}
-                      autoComplete="off"
-                      required
-                      onDOMChange={e =>
-                        this.setState({ leader: e.target.value })
-                      }
-                    />
-                  </FormField>
-                </Box>
+          <Box pad={{ horizontal: 'medium', vertical: 'small' }}>
+            <Form
+              onSubmit={this.addArea}
+              disabled={this.state.submitting}
+              style={{ width: '100%' }}
+            >
+              <Box direction="row" justify="start">
+                <div style={{ width: '480px', maxWidth: '100%' }}>
+                  <FormFields>
+                    <Box pad={{ vertical: 'small' }}>
+                      <FormField label="Leader Name">
+                        <TextInput
+                          value={this.state.leader}
+                          autoComplete="off"
+                          required
+                          onDOMChange={e =>
+                            this.setState({ leader: e.target.value })
+                          }
+                        />
+                      </FormField>
+                    </Box>
 
-                <Box pad={{ vertical: 'small' }}>
-                  <FormField label="Area Address">
-                    <textarea
-                      value={this.state.address}
-                      autoComplete="off"
-                      rows={5}
-                      onChange={e => this.setState({ address: e.target.value })}
-                    />
-                  </FormField>
-                </Box>
+                    <Box pad={{ vertical: 'small' }}>
+                      <FormField label="Area Address">
+                        <textarea
+                          value={this.state.address}
+                          autoComplete="off"
+                          rows={5}
+                          onChange={e =>
+                            this.setState({ address: e.target.value })
+                          }
+                        />
+                      </FormField>
+                    </Box>
+                  </FormFields>
+                </div>
 
-                <Box pad={{ vertical: 'small' }}>
-                  <FormField label="Leader House Number">
-                    <TextInput
-                      autoComplete="off"
-                      type="tel"
-                      value={this.state.house}
-                      onDOMChange={e =>
-                        this.setState({ house: e.target.value })
-                      }
-                    />
-                  </FormField>
-                </Box>
+                <div
+                  style={{ width: '480px', maxWidth: '100%', marginLeft: 60 }}
+                >
+                  <FormFields>
+                    <Box pad={{ vertical: 'small' }}>
+                      <FormField label="Leader House Number">
+                        <TextInput
+                          autoComplete="off"
+                          type="tel"
+                          value={this.state.house}
+                          onDOMChange={e =>
+                            this.setState({ house: e.target.value })
+                          }
+                        />
+                      </FormField>
+                    </Box>
 
-                <Box pad={{ vertical: 'small' }}>
-                  <FormField label="Leader Cell Number">
-                    <TextInput
-                      value={this.state.cell}
-                      type="tel"
-                      autoComplete="off"
-                      onDOMChange={e => this.setState({ cell: e.target.value })}
-                    />
-                  </FormField>
-                </Box>
+                    <Box pad={{ vertical: 'small' }}>
+                      <FormField label="Leader Cell Number">
+                        <TextInput
+                          value={this.state.cell}
+                          type="tel"
+                          autoComplete="off"
+                          onDOMChange={e =>
+                            this.setState({ cell: e.target.value })
+                          }
+                        />
+                      </FormField>
+                    </Box>
 
-                <Box pad={{ vertical: 'small' }}>
-                  <FormField label="Leader Email Address">
-                    <TextInput
-                      autoComplete="off"
-                      type="email"
-                      value={this.state.email}
-                      onDOMChange={e =>
-                        this.setState({ email: e.target.value })
-                      }
-                    />
-                  </FormField>
-                </Box>
-              </FormFields>
+                    <Box pad={{ vertical: 'small' }}>
+                      <FormField label="Leader Email Address">
+                        <TextInput
+                          autoComplete="off"
+                          type="email"
+                          value={this.state.email}
+                          onDOMChange={e =>
+                            this.setState({ email: e.target.value })
+                          }
+                        />
+                      </FormField>
+                    </Box>
+                  </FormFields>
+                </div>
+              </Box>
+
               <Footer pad={{ vertical: 'medium' }}>
                 <Button
                   label={this.state.submitting ? <Spinning /> : 'Submit'}
