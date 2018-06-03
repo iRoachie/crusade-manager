@@ -107,6 +107,29 @@ export default class Area extends React.Component {
     });
   };
 
+  confirmDelete = async () => {
+    if (window.confirm('Are your sure you want to delete this contact?')) {
+      this.contactRef.off();
+      this.areaRef.off();
+
+      const { areaRef } = this.props.match.params;
+
+      try {
+        const request = await fetch(
+          `${process.env.REACT_APP_DELETE_LINK}/?key=${areaRef}`,
+          {
+            method: 'DELETE'
+          }
+        );
+        await request.json();
+        this.props.history.push('/areas');
+      } catch (e) {
+        console.error(e);
+        alert('Error deleting area leader');
+      }
+    }
+  };
+
   render() {
     const { area, loading, submitting } = this.state;
 
@@ -140,6 +163,13 @@ export default class Area extends React.Component {
                   <Box direction="row">
                     <Box pad={{ horizontal: 'small', vertical: 'small' }}>
                       <Button type="submit" label="Save Changes" />
+                    </Box>
+                    <Box pad={{ horizontal: 'small', vertical: 'small' }}>
+                      <Button
+                        label="Delete"
+                        critical
+                        onClick={this.confirmDelete}
+                      />
                     </Box>
                   </Box>
                 </Box>
