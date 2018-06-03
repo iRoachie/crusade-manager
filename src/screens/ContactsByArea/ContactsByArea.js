@@ -174,8 +174,8 @@ export default class ContactsByArea extends React.Component {
               flex={true}
               wrap={true}
             >
-              {contacts.map(([key, list]) => (
-                <Box key={key}>
+              {contacts.reverse().map(([key, list]) => (
+                <Box key={key} pad={{ vertical: 'small' }}>
                   <Title className="group-title">
                     {this.getAreaLeader(key)}
                   </Title>
