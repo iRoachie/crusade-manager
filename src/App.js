@@ -5,6 +5,7 @@ import {
   Switch,
   Redirect
 } from 'react-router-dom';
+import classNames from 'classnames';
 
 import {
   Areas,
@@ -26,18 +27,42 @@ import Box from 'grommet/components/Box';
 import Menu from 'grommet/components/Menu';
 import Button from 'grommet/components/Button';
 import Archive from 'grommet/components/icons/base/Archive';
+import Up from 'grommet/components/icons/base/Up';
 
 export default class Root extends Component {
+  state = {
+    menuShowing: false
+  };
+
+  toggleMobileFooter = () => {
+    if (window.innerWidth < 901) {
+      this.setState({ menuShowing: !this.state.menuShowing });
+    }
+  };
+
   render() {
+    const sidebarClasses = classNames({
+      sidebar: true,
+      'hide-print': true,
+      'sidebar--menu-showing': this.state.menuShowing
+    });
+
     return (
       <App centered={false}>
         <Router>
           <React.Fragment>
-            <Sidebar colorIndex="brand" className="hide-print" id="sidebar">
+            <Sidebar
+              colorIndex="brand"
+              className={sidebarClasses}
+              onClick={this.toggleMobileFooter}
+            >
               <Header pad="medium" justify="between">
                 <Title>Crusade Manager</Title>
+
+                <Up className="sidebar__arrow" />
               </Header>
-              <Box flex="grow" justify="start">
+
+              <Box flex="grow" justify="start" className="sidebar__items">
                 <Menu primary={true}>
                   <Anchor path="/areas">Area Leaders</Anchor>
                   <Anchor path="/contacts">Contacts</Anchor>

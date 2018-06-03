@@ -31,6 +31,10 @@ export default class ContactsByArea extends React.Component {
     this.getContacts();
   }
 
+  shouldComponentUpdate(_, nextState) {
+    return nextState !== this.state;
+  }
+
   componentWillUnmount() {
     this.contactsRef.off();
     this.areasRef.off();
