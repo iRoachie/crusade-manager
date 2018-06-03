@@ -24,7 +24,6 @@ import Footer from 'grommet/components/Footer';
 import Title from 'grommet/components/Title';
 import Box from 'grommet/components/Box';
 import Menu from 'grommet/components/Menu';
-import Split from 'grommet/components/Split';
 import Button from 'grommet/components/Button';
 import Archive from 'grommet/components/icons/base/Archive';
 
@@ -33,7 +32,7 @@ export default class Root extends Component {
     return (
       <App centered={false}>
         <Router>
-          <Split priority="right" flex="right">
+          <React.Fragment>
             <Sidebar colorIndex="brand" className="hide-print" id="sidebar">
               <Header pad="medium" justify="between">
                 <Title>Crusade Manager</Title>
@@ -60,21 +59,23 @@ export default class Root extends Component {
               </Footer>
             </Sidebar>
 
-            <Switch>
-              <Route
-                exact={true}
-                path="/"
-                render={() => <Redirect to="/areas" />}
-              />
-              <Route exact path="/areas" component={Areas} />
-              <Route exact path="/areas/new" component={NewArea} />
-              <Route exact path="/areas/:areaRef" component={Area} />
-              <Route exact path="/contacts" component={Contacts} />
-              <Route exact path="/contacts-area" component={ContactsByArea} />
-              <Route exact path="/contacts/new" component={NewContact} />
-              <Route exact path="/contacts/:contactRef" component={Contact} />
-            </Switch>
-          </Split>
+            <main className="content">
+              <Switch>
+                <Route
+                  exact={true}
+                  path="/"
+                  render={() => <Redirect to="/areas" />}
+                />
+                <Route exact path="/areas" component={Areas} />
+                <Route exact path="/areas/new" component={NewArea} />
+                <Route exact path="/areas/:areaRef" component={Area} />
+                <Route exact path="/contacts" component={Contacts} />
+                <Route exact path="/contacts-area" component={ContactsByArea} />
+                <Route exact path="/contacts/new" component={NewContact} />
+                <Route exact path="/contacts/:contactRef" component={Contact} />
+              </Switch>
+            </main>
+          </React.Fragment>
         </Router>
       </App>
     );
