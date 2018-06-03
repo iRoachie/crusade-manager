@@ -19,8 +19,8 @@ const ContactCard = ({ contact, path, areaLeader, showAreaLeader }) => (
       className="arealeader-box__item--name"
     >
       <Title className="arealeader-box__title">
-        <span className="arealeader-box__number">#{contact.number}</span>{' '}
-        {contact.name}
+        <span className="arealeader-box__number">#{contact.number}</span>
+        <span className="arealeader-box__name">{contact.name}</span>
       </Title>
       <Button
         label="View"

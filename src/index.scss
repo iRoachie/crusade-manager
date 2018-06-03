@@ -70,6 +70,11 @@ $header-width: 72px;
   font-size: 13px;
 }
 
+.arealeader-box__name {
+  display: inline-block !important;
+  margin-left: 8px;
+}
+
 .loading {
   transition: 300ms;
   max-height: 0;
