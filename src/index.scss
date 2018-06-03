@@ -189,3 +189,13 @@ $header-width: 72px;
     }
   }
 }
+
+@media screen and (max-width: 720px) {
+  .hide-mobile {
+    display: none;
+  }
+
+  .grommetux-header__container .grommetux-title {
+    margin-bottom: 10px;
+  }
+}

@@ -113,7 +113,7 @@ export default class Contacts extends React.Component {
                 justify="end"
                 direction="row"
                 responsive={true}
-                className="hide-print"
+                className="hide-print hide-mobile"
               >
                 <Search
                   inline={true}
