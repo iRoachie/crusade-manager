@@ -200,7 +200,7 @@ export default class Contacts extends React.Component {
                   contact={contact}
                   key={key}
                   path={key}
-                  areaLeader={this.getAreaLeader(key)}
+                  areaLeader={this.getAreaLeader(contact)}
                 />
               ))}
             </Box>
