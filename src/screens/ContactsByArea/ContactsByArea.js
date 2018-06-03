@@ -105,7 +105,7 @@ export default class ContactsByArea extends React.Component {
         <Header
           fixed
           float={false}
-          pad={{ horizontal: 'medium' }}
+          pad={{ horizontal: 'medium', vertical: 'small' }}
           direction="column"
           align="stretch"
         >
