@@ -130,7 +130,8 @@ export default class NewContact extends React.Component {
     }
 
     // Assign number
-    contact.number = contacts.length;
+    const number = contacts[contacts.length - 1].number;
+    contact.number = number + 1;
 
     this.setState({ submitting: true }, () => {
       const database = firebase.database();
