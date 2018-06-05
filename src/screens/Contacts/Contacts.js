@@ -1,6 +1,5 @@
 import React from 'react';
 import firebase from 'firebase';
-import entries from 'object.entries';
 
 import Article from 'grommet/components/Article';
 import Header from 'grommet/components/Header';
@@ -10,6 +9,7 @@ import Search from 'grommet/components/Search';
 import Button from 'grommet/components/Button';
 import CheckBox from 'grommet/components/CheckBox';
 
+import { formatFirebaseArray } from '../../utils';
 import { Empty, Loading, ContactCard } from '../../components';
 
 export default class Contacts extends React.Component {
@@ -18,6 +18,7 @@ export default class Contacts extends React.Component {
     status: 'initial',
     areas: [],
     contacts: [],
+    filteredContacts: [],
     openingInvitation: false,
     sabbathInvitation: false,
     prayerClub: false
@@ -28,7 +29,6 @@ export default class Contacts extends React.Component {
     this.contactsRef = database.ref('/contacts');
     this.areasRef = database.ref('/areas');
     this.getAreas();
-    this.getContacts();
   }
 
   componentWillUnmount() {
@@ -42,7 +42,11 @@ export default class Contacts extends React.Component {
         const areas = snapshot.val();
 
         if (areas) {
-          this.setState({ areas: entries(areas), status: 'loaded' });
+          this.setState({
+            areas: formatFirebaseArray(areas)
+          });
+
+          this.getContacts();
         } else {
           this.setState({ status: 'loaded' });
         }
@@ -51,44 +55,63 @@ export default class Contacts extends React.Component {
   };
 
   getContacts = () => {
-    this.setState({ status: 'loading' }, () => {
-      this.contactsRef.on('value', snapshot => {
-        const contacts = snapshot.val();
+    this.contactsRef.on('value', snapshot => {
+      const contacts = formatFirebaseArray(snapshot.val());
 
-        if (contacts) {
-          this.setState({ contacts: entries(contacts), status: 'loaded' });
-        } else {
-          this.setState({ status: 'loaded' });
-        }
-      });
+      if (contacts) {
+        this.setState({
+          contacts,
+          filteredContacts: this.filterList(contacts, this.state.search),
+          status: 'loaded'
+        });
+      } else {
+        this.setState({ status: 'loaded' });
+      }
     });
   };
 
-  filterList = () => {
-    const { contacts, search } = this.state;
-
+  filterList = (contacts, search) => {
     return contacts
       .filter(
-        ([_, contact]) =>
+        contact =>
           search
-            ? contact.name.toLowerCase().includes(search.toLowerCase())
+            ? contact.name.toLowerCase().includes(search.toLowerCase()) ||
+              String(contact.number).includes(search.toLowerCase())
             : contact
       )
-      .filter(
-        ([_, a]) => (this.state.sabbathInvitation ? a.sabbathInvitation : a)
-      )
-      .filter(([_, a]) => (this.state.prayerClub ? a.prayerClub : a))
-      .filter(
-        ([_, a]) => (this.state.openingInvitation ? a.openingInvitation : a)
-      );
+      .filter(a => (this.state.sabbathInvitation ? a.sabbathInvitation : a))
+      .filter(a => (this.state.prayerClub ? a.prayerClub : a))
+      .filter(a => (this.state.openingInvitation ? a.openingInvitation : a));
   };
 
   getAreaLeader = ({ areaRef }) =>
-    areaRef && this.state.areas.find(a => a[0] === areaRef)[1].leader;
+    areaRef && this.state.areas.find(a => a.key === areaRef).leader;
+
+  updateSearch = search => {
+    this.setState({
+      search,
+      filteredContacts: this.filterList(this.state.contacts, search)
+    });
+  };
+
+  updateFilter = data => {
+    this.setState(
+      {
+        ...data
+      },
+      () => {
+        this.setState({
+          filteredContacts: this.filterList(
+            this.state.contacts,
+            this.state.search
+          )
+        });
+      }
+    );
+  };
 
   render() {
-    const contacts = this.filterList();
-    const { status } = this.state;
+    const { status, filteredContacts: contacts } = this.state;
 
     return (
       <Article>
@@ -122,7 +145,7 @@ export default class Contacts extends React.Component {
                   placeHolder="Search"
                   dropAlign={{ right: 'right' }}
                   value={this.state.search}
-                  onDOMChange={e => this.setState({ search: e.target.value })}
+                  onDOMChange={e => this.updateSearch(e.target.value)}
                 />
               </Box>
             </Box>
@@ -142,7 +165,7 @@ export default class Contacts extends React.Component {
                 label="Opening Invitation"
                 checked={this.state.openingInvitation}
                 onChange={({ target }) =>
-                  this.setState({
+                  this.updateFilter({
                     openingInvitation: target.checked
                   })
                 }
@@ -154,7 +177,7 @@ export default class Contacts extends React.Component {
                 label="Sabbath Invitation"
                 checked={this.state.sabbathInvitation}
                 onChange={({ target }) =>
-                  this.setState({
+                  this.updateFilter({
                     sabbathInvitation: target.checked
                   })
                 }
@@ -166,7 +189,7 @@ export default class Contacts extends React.Component {
                 label="Prayer Club"
                 checked={this.state.prayerClub}
                 onChange={({ target }) =>
-                  this.setState({
+                  this.updateFilter({
                     prayerClub: target.checked
                   })
                 }
@@ -195,11 +218,11 @@ export default class Contacts extends React.Component {
               direction="row"
               wrap={true}
             >
-              {contacts.map(([key, contact]) => (
+              {contacts.map(contact => (
                 <ContactCard
                   contact={contact}
-                  key={key}
-                  path={key}
+                  key={contact.key}
+                  path={contact.key}
                   areaLeader={this.getAreaLeader(contact)}
                 />
               ))}
